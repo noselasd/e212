@@ -1,7 +1,6 @@
 package routes
 
 import (
-	//"github.com/go-macaron/macaron"
 	"e212/store"
 
 	"gopkg.in/macaron.v1"
@@ -18,7 +17,7 @@ func jsonError(httpStatus int, err error, ctx *macaron.Context) {
 }
 
 func ListMCCMNC(ctx *macaron.Context) {
-	e, err := store.GetAll()
+	e, err := store.E212GetAll()
 	if err != nil {
 		jsonError(500, err, ctx)
 	} else {
@@ -30,7 +29,7 @@ func GetByMCC(ctx *macaron.Context) {
 
 	mcc := ctx.Params("mcc")
 
-	e, err := store.GetByMcc(mcc)
+	e, err := store.E212GetByMcc(mcc)
 	if err == nil {
 		ctx.JSON(200, e)
 	} else {
@@ -42,7 +41,7 @@ func GetByMCCMNC(ctx *macaron.Context) {
 	mcc := ctx.Params("mcc")
 	mnc := ctx.Params("mnc")
 
-	e, err := store.GetByMccMnc(&store.MccMnc{Mcc: mcc, Mnc: mnc})
+	e, err := store.E212GetByMccMnc(&store.MccMnc{Mcc: mcc, Mnc: mnc})
 	if err == nil {
 		ctx.JSON(200, e)
 	} else {
