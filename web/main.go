@@ -5,10 +5,11 @@ import (
 	"e212/store"
 
 	//"github.com/go-macaron/macaron"
+	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
 )
 
-func home(ctx *macaron.Context) {
+func home(ctx *routes.AppContext) {
 	ctx.HTML(200, "index", nil)
 }
 
@@ -19,11 +20,15 @@ func main() {
 	}
 	r := macaron.Classic()
 	r.Use(macaron.Renderer())
+	r.Use(session.Sessioner())
+	r.Use(routes.Contexter())
+
 	r.Group("/e212api.v1/", func() {
 		r.Get("/e212", routes.ListMCCMNC)
 		r.Get("/e212/:mcc", routes.GetByMCC)
 		r.Get("/e212/:mcc/:mnc", routes.GetByMCCMNC)
 	})
+
 	r.Get("/", home)
 	r.Run()
 }
