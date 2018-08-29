@@ -2,21 +2,19 @@ package routes
 
 import (
 	"e212/store"
-
-	"gopkg.in/macaron.v1"
 )
 
 type jsonErr struct {
 	Error string `json:"errormessage"`
 }
 
-func jsonError(httpStatus int, err error, ctx *macaron.Context) {
+func jsonError(httpStatus int, err error, ctx *AppContext) {
 	e := jsonErr{Error: err.Error()}
 
 	ctx.JSON(httpStatus, &e)
 }
 
-func ListMCCMNC(ctx *macaron.Context) {
+func ListMCCMNC(ctx *AppContext) {
 	e, err := store.E212GetAll()
 	if err != nil {
 		jsonError(500, err, ctx)
@@ -25,7 +23,7 @@ func ListMCCMNC(ctx *macaron.Context) {
 	}
 }
 
-func GetByMCC(ctx *macaron.Context) {
+func GetByMCC(ctx *AppContext) {
 
 	mcc := ctx.Params("mcc")
 
@@ -37,7 +35,7 @@ func GetByMCC(ctx *macaron.Context) {
 	}
 }
 
-func GetByMCCMNC(ctx *macaron.Context) {
+func GetByMCCMNC(ctx *AppContext) {
 	mcc := ctx.Params("mcc")
 	mnc := ctx.Params("mnc")
 
