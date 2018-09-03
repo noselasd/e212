@@ -11,7 +11,7 @@ type AppContext struct {
 	Session session.Store
 }
 
-func Contexter() macaron.Handler {
+func AppContexter() macaron.Handler {
 	return func(c *macaron.Context, sess session.Store, f *session.Flash) {
 		ctx := &AppContext{
 			Context: c,

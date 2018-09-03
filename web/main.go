@@ -21,7 +21,7 @@ func main() {
 	r := macaron.Classic()
 	r.Use(macaron.Renderer())
 	r.Use(session.Sessioner())
-	r.Use(routes.Contexter())
+	r.Use(routes.AppContexter())
 
 	r.Group("/e212api.v1/", func() {
 		r.Get("/e212", routes.ListMCCMNC)
