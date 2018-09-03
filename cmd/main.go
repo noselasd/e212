@@ -8,6 +8,7 @@ import (
 func usage() {
 	println("Usage:", os.Args[0], " add mcc mnc country operator")
 	println("      ", os.Args[0], " remove mcc mnc")
+	println("      ", os.Args[0], " newuser loginname email password")
 	os.Exit(2)
 
 }
@@ -38,6 +39,21 @@ func main() {
 			println("Failed to remove:", err.Error())
 			os.Exit(1)
 		}
+	} else if os.Args[1] == "newuser" && len(os.Args) == 5 {
+		u := store.User{
+			LoginName: os.Args[2],
+			Email:     os.Args[3],
+			Password:  os.Args[4],
+		}
+		err := store.CreateUser(&u)
+		if err == nil {
+			println("User created. ID", u.ID)
+			ok := u.CheckPassword(os.Args[4])
+			println("Password check:", ok)
+		} else {
+			println("Failed to create user:", err.Error())
+		}
+
 	} else {
 		usage()
 	}
