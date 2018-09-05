@@ -1,16 +1,50 @@
-<!doctype html>
+{{template "header" .}}
 
-<html>
-<head>
-</head>
+    
+        <div class="row">
+            <div class="col-sm-9">
+                <h2>E212 MCC/MNC Entries</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="table-responsive">
+                    <table summary="E212 Entries" class="table sortable table-bordered table-sm table-hover">
 
-<body>
-<h1>hello</h1>
-<form action="/" method="POST">
-<input type="text" name="name">
-<input type="text" name="age"> 
-<input type="submit">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th data-defaultsort="asc">Country</th>
+                                <th>Operator</th>
+                                <th>MCC</th>
+                                <th>MNC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range .entries}}
+                            <tr>
+                                <td>{{ .Country }}</td>
+                                <td>{{ .Operator }}</td>
+                                <td>{{ .Code.Mcc }}</td>
+                                <td>{{ .Code.Mnc }}</td>
+                            </tr>
+                            {{end}}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-center">Data retrieved from <a href="https://www.itu.int/" target="_blank">ITU</a></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!--end of .table-responsive-->
 
-</form>
-</body>
-</html>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <span class="badge badge-secondary">by Nils Olav Selåsdal</p>
+            </div>
+        </div>
+
+{{template "footer" .}}

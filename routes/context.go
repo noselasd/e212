@@ -11,13 +11,18 @@ type AppContext struct {
 	Session session.Store
 }
 
+func SetHeaders() macaron.Handler {
+	return func(c *macaron.Context, sess session.Store, f *session.Flash) {
+		c.Header().Add("Server", "Macaron Go HTTP")
+	}
+}
+
 func AppContexter() macaron.Handler {
 	return func(c *macaron.Context, sess session.Store, f *session.Flash) {
 		ctx := &AppContext{
 			Context: c,
 			Flash:   f,
 		}
-
 		c.Map(ctx)
 	}
 }
