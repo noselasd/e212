@@ -63,7 +63,7 @@ func E212GetByMccMnc(mccMnc *MccMnc) (*E212Entry, error) {
 func E212GetAll() ([]E212Entry, error) {
 	var entries []E212Entry
 
-	stmt, err := gDb.Prepare("SELECT MCC, MNC, COUNTRY, OPERATOR FROM E212")
+	stmt, err := gDb.Prepare("SELECT MCC, MNC, COUNTRY, OPERATOR FROM E212 ORDER BY COUNTRY COLLATE NOCASE,OPERATOR COLLATE NOCASE")
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func E212GetAll() ([]E212Entry, error) {
 func E212GetByMcc(mcc string) ([]E212Entry, error) {
 	var entries []E212Entry
 
-	stmt, err := gDb.Prepare("SELECT MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=?")
+	stmt, err := gDb.Prepare("SELECT MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=? ORDER BY COUNTRY COLLATE NOCASE,OPERATOR COLLATE NOCASE")
 	if err != nil {
 		return nil, err
 	}

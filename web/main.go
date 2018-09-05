@@ -10,7 +10,15 @@ import (
 )
 
 func home(ctx *routes.AppContext) {
-	ctx.HTML(200, "index", nil)
+	entries, err := store.E212GetAll()
+	if err != nil {
+		ctx.Error(500, err.Error())
+	}
+	ctx.Data["need_sorting"] = true
+	ctx.Data["nav"] = "home"
+	ctx.Data["title"] = "E212 Database"
+	ctx.Data["entries"] = entries
+	ctx.HTML(200, "index")
 }
 
 func main() {
@@ -21,6 +29,7 @@ func main() {
 	r := macaron.Classic()
 	r.Use(macaron.Renderer())
 	r.Use(session.Sessioner())
+	r.Use(routes.SetHeaders())
 	r.Use(routes.AppContexter())
 
 	r.Group("/e212api.v1/", func() {
