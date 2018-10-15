@@ -21,6 +21,13 @@ func home(ctx *routes.AppContext) {
 	ctx.HTML(200, "index")
 }
 
+func login(ctx *routes.AppContext) {
+	ctx.Data["need_sorting"] = false
+	ctx.Data["nav"] = "login"
+	ctx.Data["title"] = "Admin Login"
+	ctx.HTML(200, "login")
+}
+
 func main() {
 	err := store.Init("mccmnc.db")
 	if err != nil {
@@ -39,5 +46,6 @@ func main() {
 	})
 
 	r.Get("/", home)
+	r.Get("/login", login)
 	r.Run()
 }
