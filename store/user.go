@@ -3,6 +3,7 @@ package store
 import (
 	"crypto/rand"
 	"crypto/sha256"
+	"crypto/subtle"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -68,7 +69,8 @@ func GetUserByLogin(loginName string) (*User, error) {
 
 func (u *User) CheckPassword(password string) bool {
 	hashedPass := hashSaltAndPassword(password, u.Salt)
-	if hashedPass == u.Password {
+
+	if subtle.ConstantTimeCompare([]byte(u.Password), []byte(hashedPass)) == 1 {
 		return true
 	}
 
