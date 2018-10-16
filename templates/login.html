@@ -1,16 +1,19 @@
 {{template "header" .}}
+<div class="row pt-3">
 <div class="col-sm-10">
-<form class="form-signin">
+
+<form class="form-signin" action="/login" method="POST" >
     <label for="inputEmail" class="sr-only">Username</label>
-    <input type="text" id="inputUsername" class="form-control" placeholder="User Name" required autofocus>
+    <input type="text" name="inputUsername" class="form-control" placeholder="User Name" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control " placeholder="Password" required>
-    <div class="checkbox mb-3">
+    <input type="password" name="inputPassword" class="form-control" placeholder="Password" required>
+    <!--div class="checkbox mb-3">
       <label>
         <input type="checkbox" value="remember-me"> Remember me
       </label>
-    </div>
+    </div-->
     <button class="btn btn-lg btn-secondary btn-block bg-dark" type="submit">Sign in</button>
   </form>
+</div>
 </div>
 {{template "footer" .}}

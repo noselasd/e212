@@ -54,7 +54,7 @@ func GetUserByLogin(loginName string) (*User, error) {
 
 	var user User
 	if rs.Next() {
-		err = rs.Scan(&user.ID, &user.LoginName, &user.Email, user.Salt, &user.Password)
+		err = rs.Scan(&user.ID, &user.LoginName, &user.Email, &user.Salt, &user.Password)
 		rs.Close()
 		if err != nil {
 			return nil, err

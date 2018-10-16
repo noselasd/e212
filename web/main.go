@@ -3,6 +3,7 @@ package main
 import (
 	"e212/routes"
 	"e212/store"
+	"errors"
 
 	//"github.com/go-macaron/macaron"
 	"github.com/go-macaron/session"
@@ -18,14 +19,53 @@ func home(ctx *routes.AppContext) {
 	ctx.Data["nav"] = "home"
 	ctx.Data["title"] = "E212 Database"
 	ctx.Data["entries"] = entries
+
 	ctx.HTML(200, "index")
 }
 
-func login(ctx *routes.AppContext) {
+func loginGet(ctx *routes.AppContext) {
 	ctx.Data["need_sorting"] = false
 	ctx.Data["nav"] = "login"
 	ctx.Data["title"] = "Admin Login"
+
 	ctx.HTML(200, "login")
+}
+
+func tryLogin(ctx *routes.AppContext) (*store.User, error) {
+	userName := ctx.QueryTrim("inputUsername")
+	passWord := ctx.QueryTrim("inputPassword")
+
+	user, err := store.GetUserByLogin(userName)
+	if err == nil {
+		if user.CheckPassword(passWord) {
+			ctx.Session.Set("user", user)
+			ctx.Data["user"] = user
+		} else {
+			err = errors.New("Password does not match")
+
+		}
+	}
+
+	return user, err
+}
+
+func logout(ctx *routes.AppContext) {
+	ctx.Session.Delete("user")
+	delete(ctx.Data, "user")
+	ctx.Redirect("/")
+}
+
+func loginPost(ctx *routes.AppContext) {
+	ctx.Data["need_sorting"] = false
+	ctx.Data["nav"] = "login"
+	ctx.Data["title"] = "Admin Login"
+	_, err := tryLogin(ctx)
+	if err != nil {
+		ctx.Flash.Error("Unknown user or password", true)
+		ctx.HTML(400, "login")
+		return
+	}
+	ctx.Redirect("/")
 }
 
 func main() {
@@ -46,6 +86,8 @@ func main() {
 	})
 
 	r.Get("/", home)
-	r.Get("/login", login)
+	r.Get("/login", loginGet)
+	r.Post("/login", loginPost)
+	r.Post("/logout", logout)
 	r.Run()
 }
