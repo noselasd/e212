@@ -1,8 +1,6 @@
 package routes
 
 import (
-	"e212/store"
-
 	"github.com/go-macaron/session"
 	macaron "gopkg.in/macaron.v1"
 )
@@ -26,10 +24,11 @@ func AppContexter() macaron.Handler {
 			Flash:   f,
 			Session: sess,
 		}
-		if user := sess.Get("user"); user != nil {
 
-			ctx.Data["user"] = user.(*store.User)
+		if user := sess.Get("user"); user != nil {
+			ctx.Data["user"] = user
 		}
+
 		c.Map(ctx)
 
 	}
