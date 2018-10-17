@@ -1,6 +1,6 @@
 {{template "header" .}}
 
-    
+        
         <div class="row pt-3 ">
             <div class="col-sm-3">
                     <input class="col-sm search" autocomplete="off" type="search" placeholder="Filter">
@@ -9,6 +9,13 @@
                     <h2>E.212 MCC/MNC Entries</h2>
             </div>
         </div>
+        {{ if $.user }}
+        <div class="row">
+            <div class="col-sm-10">
+                <button type="button" class="table-edit btn btn-dark  btn-sm" data-toggle="modal" data-target="#editModal" data-xtype="add">Add new entry</button>
+            </div>
+        </div>
+        {{end}}
         <div class="row">
             <div class="col-sm-10">
                 <div class="table-responsive">
@@ -16,17 +23,26 @@
 
                         <thead class="bg-dark text-white">
                             <tr>
+                                {{ if .user }}
+                                <th data-defaultsort="disabled">Action</th>
+                                {{end}}
                                 <th data-defaultsort="asc">Country</th>
                                 <th>Operator</th>
                                 <th>MCC + MNC</th>
+     
                             </tr>
                         </thead>
                         <tbody>
-                            {{range .entries}}
+                            {{range .entries }}
                             <tr>
+                                {{ if $.user }}
+                                <td><button type="button" class="table-edit btn btn-dark  btn-sm" data-toggle="modal" data-target="#editModal" data-xtype="update">Edit</button></td>
+                                {{end}}
                                 <td>{{ .Country }}</td>
                                 <td>{{ .Operator }}</td>
                                 <td>{{ .Code.Mcc }} {{ .Code.Mnc }}</td>
+            
+
                             </tr>
                             {{end}}
                         </tbody>
@@ -40,13 +56,61 @@
 
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-10 text-center">
                 <span class="badge badge-secondary">by Nils Olav Selåsdal</span>
             </div>
         </div>
+        {{ if .user }}
+
+        <div class="modal" id="editModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title"></h5>
+                    </div>
+                    <form method="POST">
+                        <div class="modal-body">
+                            <label for="inputCountry">Country</label>
+                            <input type="text" name="inputCountry" class="form-control" autocomplete="off" required autofocus>
+                            <label for="inputOperator">Operator</label>
+                            <input type="text" name="inputOperator" class="form-control" autocomplete="off" required>
+                            <label for="inputMCC">MCC</label>
+                            <input type="text" name="inputMCC" class="form-control" autocomplete="off" required>
+                            <label for="inputMNC">MNC</label>
+                            <input type="text" name="inputMNC" class="form-control" autocomplete="off" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form> 
+                  </div>
+                </div>
+              </div>
+        {{end}}
         <script type="text/javascript">
             $(document).ready(function() {
+
+                $('#editModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget)
+                    var type = button.data('xtype')
+                    var modal = $(this)
+                    modal.find("form").attr('action', '/e212' + type)
+                    modal.find('.modal-title').text(type)
+                    if (type === "update") {
+                        var country = button.closest("tr").children("td:nth-child(2)").text()
+                        var operator = button.closest("tr").children("td:nth-child(3)").text()
+                        var mccmnc = button.closest("tr").children("td:nth-child(4)").text()
+
+                        modal.find('input[name=inputCountry]').val(country)
+                        modal.find('input[name=inputOperator]').val(operator)
+                        modal.find('input[name=inputMCC]').val(mccmnc.split(' ')[0])
+                        modal.find('input[name=inputMNC]').val(mccmnc.split(' ')[1])
+                    }
+                });
+                
                 $(".search").keyup(function () {
                     var searchTerm = $(".search").val();
                     var listItem = $('.results tbody').children('tr');
