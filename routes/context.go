@@ -45,9 +45,7 @@ func MustBeLoggedIn(ctx *AppContext) {
 		}
 	}
 
-	if isLoggedIn {
-		ctx.Next()
-	} else {
+	if !isLoggedIn {
 		ctx.Error(400, "You are not authorized")
 	}
 
