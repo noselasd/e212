@@ -3,10 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "S2+ta+dGORvF6I4JfuxTPRYEodo=",
+			"checksumSHA1": "bJvSOHGBw6DrlwBpCd2zEHRSv5M=",
 			"path": "github.com/Unknwon/com",
-			"revision": "da59b551951d50441ca26b7a8cd81317f34df87f",
-			"revisionTime": "2018-06-17T00:39:50Z"
+			"revision": "41959bdd855fb7db467f78865d5f9044507df1cd",
+			"revisionTime": "2018-10-10T21:02:13Z"
 		},
 		{
 			"checksumSHA1": "J0tcl2i76AQvMio9MWNQaucepYA=",
@@ -23,10 +23,10 @@
 			"revisionTime": "2016-06-27T17:00:12Z"
 		},
 		{
-			"checksumSHA1": "36bghdFFcdZkNxHGiRXbzrDmXRI=",
+			"checksumSHA1": "kIAal4eNygfsFJc1a8leDyD1i4c=",
 			"path": "github.com/go-macaron/macaron",
-			"revision": "88a29ec402caf29b5f22f7817d884981bc6b48d9",
-			"revisionTime": "2018-04-26T21:11:54Z",
+			"revision": "9f1e9720ca1c21233db3b230a56e8842bb420ed1",
+			"revisionTime": "2018-09-10T19:27:41Z",
 			"version": "master",
 			"versionExact": "master"
 		},
@@ -41,16 +41,16 @@
 			"revision": ""
 		},
 		{
-			"checksumSHA1": "k8hCATgh5bXaZwDXk/Wm6air/ZQ=",
+			"checksumSHA1": "98A7ubzXyEPJVD7Mx7CeE8rsci4=",
 			"path": "github.com/mattn/go-sqlite3",
-			"revision": "3198c7714d5f8be941dd06c30208e623aa5abf90",
-			"revisionTime": "2018-08-24T14:21:20Z"
+			"revision": "c67b489f7e8e10b993944d4ecef084df2db3ec8e",
+			"revisionTime": "2018-10-15T13:44:34Z"
 		},
 		{
 			"checksumSHA1": "1MGpGDQqnUoRpv7VEcQrXOBydXE=",
 			"path": "golang.org/x/crypto/pbkdf2",
-			"revision": "aabede6cba87e37f413b3e60ebfc214f8eeca1b0",
-			"revisionTime": "2018-08-16T21:30:07Z"
+			"revision": "76a954637dfa3223c13edb4529f981f0d62cfa26",
+			"revisionTime": "2018-05-03T13:03:53Z"
 		},
 		{
 			"checksumSHA1": "FzFMovjGbAQRog5LrpJyirNZvVc=",
