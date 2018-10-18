@@ -1,6 +1,7 @@
 package store
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/mattn/go-sqlite3"
@@ -16,9 +17,27 @@ func (v *MccMnc) String() string {
 }
 
 type E212Entry struct {
+	ID       int
 	Code     MccMnc `json:"code"`
 	Country  string `json:"country"`
 	Operator string `json:"operator"`
+}
+
+func (e *E212Entry) Validate() error {
+	if len(e.Country) == 0 {
+		return errors.New("Invalid Country")
+	}
+	if len(e.Operator) == 0 {
+		return errors.New("Invalid Operator")
+	}
+	if len(e.Code.Mcc) == 0 {
+		return errors.New("Invalid MCC")
+	}
+	if len(e.Code.Mnc) == 0 {
+		return errors.New("Invalid Mnc")
+	}
+
+	return nil
 }
 
 func NewE212Entry(mcc, mnc, country, operator string) *E212Entry {
@@ -33,7 +52,7 @@ func NewE212Entry(mcc, mnc, country, operator string) *E212Entry {
 }
 
 func E212GetByMccMnc(mccMnc *MccMnc) (*E212Entry, error) {
-	stmt, err := gDb.Prepare("SELECT MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=? AND MNC=?")
+	stmt, err := gDb.Prepare("SELECT ID, MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=? AND MNC=?")
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +66,7 @@ func E212GetByMccMnc(mccMnc *MccMnc) (*E212Entry, error) {
 
 	var entry E212Entry
 	if rs.Next() {
-		err = rs.Scan(&entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
+		err = rs.Scan(&entry.ID, &entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
 		rs.Close()
 		if err != nil {
 			return nil, err
@@ -63,7 +82,7 @@ func E212GetByMccMnc(mccMnc *MccMnc) (*E212Entry, error) {
 func E212GetAll() ([]E212Entry, error) {
 	var entries []E212Entry
 
-	stmt, err := gDb.Prepare("SELECT MCC, MNC, COUNTRY, OPERATOR FROM E212 ORDER BY COUNTRY COLLATE NOCASE,OPERATOR COLLATE NOCASE")
+	stmt, err := gDb.Prepare("SELECT ID, MCC, MNC, COUNTRY, OPERATOR FROM E212 ORDER BY COUNTRY COLLATE NOCASE,OPERATOR COLLATE NOCASE")
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +97,7 @@ func E212GetAll() ([]E212Entry, error) {
 	for rs.Next() {
 		var entry E212Entry
 
-		err = rs.Scan(&entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
+		err = rs.Scan(&entry.ID, &entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
 		entries = append(entries, entry)
 		if err != nil {
 			rs.Close()
@@ -92,7 +111,7 @@ func E212GetAll() ([]E212Entry, error) {
 func E212GetByMcc(mcc string) ([]E212Entry, error) {
 	var entries []E212Entry
 
-	stmt, err := gDb.Prepare("SELECT MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=? ORDER BY COUNTRY COLLATE NOCASE,OPERATOR COLLATE NOCASE")
+	stmt, err := gDb.Prepare("SELECT ID, MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=? ORDER BY COUNTRY COLLATE NOCASE,OPERATOR COLLATE NOCASE")
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +126,7 @@ func E212GetByMcc(mcc string) ([]E212Entry, error) {
 	for rs.Next() {
 		var entry E212Entry
 
-		err = rs.Scan(&entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
+		err = rs.Scan(&entry.ID, &entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
 		entries = append(entries, entry)
 		if err != nil {
 			rs.Close()
@@ -132,6 +151,30 @@ func E212Add(e *E212Entry) error {
 			return ErrEntryExists
 		}
 	}
+	return err
+}
+
+func E212Update(e *E212Entry) error {
+	if e.ID == 0 {
+		return ErrEntryMissing
+	}
+
+	stmt, err := gDb.Prepare("UPDATE E212 SET MCC=?, MNC=?, COUNTRY=?, OPERATOR =? WHERE ID=?")
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+	r, err := stmt.Exec(e.Code.Mcc, e.Code.Mnc, e.Country, e.Operator, e.ID)
+
+	if err == nil {
+		var rows int64
+		rows, err = r.RowsAffected()
+		if err == nil && rows == 0 {
+			return ErrEntryMissing
+		}
+	}
+
 	return err
 }
 

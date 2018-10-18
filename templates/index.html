@@ -1,23 +1,23 @@
 {{template "header" .}}
 
         
-        <div class="row pt-3 ">
+        <div class="row pt-4 ">
             <div class="col-sm-3">
                     <input class="col-sm search" autocomplete="off" type="search" placeholder="Filter">
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-8">
                     <h2>E.212 MCC/MNC Entries</h2>
             </div>
         </div>
         {{ if $.user }}
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-12">
                 <button type="button" class="table-edit btn btn-dark  btn-sm" data-toggle="modal" data-target="#editModal" data-xtype="add">Add new entry</button>
             </div>
         </div>
         {{end}}
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-12">
                 <div class="table-responsive">
                     <table summary="E212 Entries" class="table results sortable table-bordered table-sm table-hover">
 
@@ -25,6 +25,7 @@
                             <tr>
                                 {{ if .user }}
                                 <th data-defaultsort="disabled">Action</th>
+                                <th>Id</th>
                                 {{end}}
                                 <th data-defaultsort="asc">Country</th>
                                 <th>Operator</th>
@@ -37,6 +38,7 @@
                             <tr>
                                 {{ if $.user }}
                                 <td><button type="button" class="table-edit btn btn-dark  btn-sm" data-toggle="modal" data-target="#editModal" data-xtype="update">Edit</button></td>
+                                <td>{{ .ID }}</td>
                                 {{end}}
                                 <td>{{ .Country }}</td>
                                 <td>{{ .Operator }}</td>
@@ -58,7 +60,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-10 text-center">
+            <div class="col-sm-12 text-center">
                 <span class="badge badge-secondary">by Nils Olav Selåsdal</span>
             </div>
         </div>
@@ -80,6 +82,7 @@
                             <input type="text" name="inputMCC" class="form-control" autocomplete="off" required>
                             <label for="inputMNC">MNC</label>
                             <input type="text" name="inputMNC" class="form-control" autocomplete="off" required>
+                            <input type="hidden" name="inputID" class="form-control" autocomplete="off" required>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -99,16 +102,26 @@
                     var modal = $(this)
                     modal.find("form").attr('action', '/e212' + type)
                     modal.find('.modal-title').text(type)
-                    if (type === "update") {
-                        var country = button.closest("tr").children("td:nth-child(2)").text()
-                        var operator = button.closest("tr").children("td:nth-child(3)").text()
-                        var mccmnc = button.closest("tr").children("td:nth-child(4)").text()
+                    var id = 0;
+                    var country = ""; 
+                    var operator = ""
+                    var mcc = "";
+                    var mnc = "";
 
-                        modal.find('input[name=inputCountry]').val(country)
-                        modal.find('input[name=inputOperator]').val(operator)
-                        modal.find('input[name=inputMCC]').val(mccmnc.split(' ')[0])
-                        modal.find('input[name=inputMNC]').val(mccmnc.split(' ')[1])
+                    if (type === "update") {
+                        id = button.closest("tr").children("td:nth-child(2)").text();
+                        country = button.closest("tr").children("td:nth-child(3)").text();
+                        operator = button.closest("tr").children("td:nth-child(4)").text();
+                        mccmnc = button.closest("tr").children("td:nth-child(5)").text();
+                        mcc = mccmnc.split(' ')[0];
+                        mnc = mccmnc.split(' ')[1];
                     }
+
+                    modal.find('input[name=inputID]').val(id);
+                    modal.find('input[name=inputCountry]').val(country);
+                    modal.find('input[name=inputOperator]').val(operator);
+                    modal.find('input[name=inputMCC]').val(mcc);
+                    modal.find('input[name=inputMNC]').val(mnc);
                 });
                 
                 $(".search").keyup(function () {
