@@ -1,0 +1,87 @@
+<div class="modal" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"></h5>
+        </div>
+        <form method="POST">
+            <div class="modal-body">
+                <label for="inputCountry">Country</label>
+                <input type="text" name="inputCountry" class="form-control" autocomplete="off" required autofocus>
+                <label for="inputOperator">Operator</label>
+                <input type="text" name="inputOperator" class="form-control" autocomplete="off" required>
+                <label for="inputMCC">MCC</label>
+                <input type="text" name="inputMCC" class="form-control" autocomplete="off" required>
+                <label for="inputMNC">MNC</label>
+                <input type="text" name="inputMNC" class="form-control" autocomplete="off" required>
+                <input type="hidden" name="inputID" class="form-control" autocomplete="off" required>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </form> 
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Confirm delete</h5>
+        </div>
+        <form method="POST" action="/e212delete">
+            <div class="modal-body">
+            <input type="hidden" name="inputID" class="form-control" autocomplete="off" value="1622" required>
+            Really delete entry ?
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Yes, delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </form> 
+        </div>
+    </div>
+</div>
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#editModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var type = button.data('xtype')
+                var modal = $(this)
+                modal.find("form").attr('action', '/e212' + type)
+                modal.find('.modal-title').text(type)
+                var id = 0;
+                var country = ""; 
+                var operator = ""
+                var mcc = "";
+                var mnc = "";
+
+                if (type === "update") {
+                    id = button.closest("tr").children("td:nth-child(2)").text();
+                    country = button.closest("tr").children("td:nth-child(3)").text();
+                    operator = button.closest("tr").children("td:nth-child(4)").text();
+                    mccmnc = button.closest("tr").children("td:nth-child(5)").text();
+                    mcc = mccmnc.split(' ')[0];
+                    mnc = mccmnc.split(' ')[1];
+                }
+
+                modal.find('input[name=inputID]').val(id);
+                modal.find('input[name=inputCountry]').val(country);
+                modal.find('input[name=inputOperator]').val(operator);
+                modal.find('input[name=inputMCC]').val(mcc);
+                modal.find('input[name=inputMNC]').val(mnc);
+            });
+
+                $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var modal = $(this)
+                var id = button.closest("tr").children("td:nth-child(2)").text();
+
+                modal.find('input[name=inputID]').val(id);
+            });
+        });
+</script>
