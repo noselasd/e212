@@ -7,15 +7,13 @@ table caption {
     margin-top: 0 !important;
 }
 
-.results tr[visible='false'],
-.no-result{
+.results tr[visible='false'], .no-result{
   display:none;
 }
 
 .results tr[visible='true']{
   display:table-row;
 }
-
 
 .form-signin {
   width: 100%;

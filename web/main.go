@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	//"github.com/go-macaron/macaron"
@@ -73,6 +74,54 @@ func loginPost(ctx *routes.AppContext) {
 	ctx.Redirect("/")
 }
 
+func errRedirect(ctx *routes.AppContext, location string, errMsg string) {
+	ctx.Flash.Error(errMsg)
+	ctx.Redirect(location)
+}
+
+func entryUpdate(ctx *routes.AppContext) {
+	handleAddEdit(ctx, false)
+}
+
+func entryAdd(ctx *routes.AppContext) {
+	handleAddEdit(ctx, true)
+}
+
+func handleAddEdit(ctx *routes.AppContext, isNew bool) {
+	id := ctx.QueryTrim("inputID")
+	country := ctx.QueryTrim("inputCountry")
+	operator := ctx.QueryTrim("inputOperator")
+	mcc := ctx.QueryTrim("inputMCC")
+	mnc := ctx.QueryTrim("inputMNC")
+
+	entry := store.NewE212Entry(mcc, mnc, country, operator)
+	err := entry.Validate()
+	if err != nil {
+		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		return
+	}
+
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		return
+	}
+	entry.ID = idInt
+	if isNew {
+		err = store.E212Add(entry)
+	} else {
+		err = store.E212Update(entry)
+
+	}
+	if err != nil {
+		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		return
+	}
+
+	//ok
+	ctx.Redirect("/")
+}
+
 var gPort = flag.Int("port", 4000, "port number to listen on")
 var gUseTLS = flag.Bool("usetls", false, "Use TLS(HTTPS) intead of plain HTTP")
 var gTLSCert = flag.String("tlscert", "tls.cert", "Path to TLS certificate file")
@@ -123,6 +172,9 @@ func main() {
 	r.Get("/login", loginGet)
 	r.Post("/login", loginPost)
 	r.Post("/logout", logout)
+
+	r.Post("/e212update", routes.MustBeLoggedIn, entryUpdate)
+	r.Post("/e212add", routes.MustBeLoggedIn, entryAdd)
 
 	runServer(r)
 }
