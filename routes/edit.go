@@ -7,6 +7,8 @@ import (
 
 func errRedirect(ctx *AppContext, location string, errMsg string) {
 	ctx.Flash.Error(errMsg)
+	ctx.Header().Set("Warning", errMsg)
+	ctx.Header().Set("Status", "400 request error")
 	ctx.Redirect(location)
 }
 
@@ -14,7 +16,7 @@ func entryDelete(ctx *AppContext) {
 	id := ctx.QueryTrim("inputID")
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		errRedirect(ctx, "/", "Delete failed: "+err.Error())
 		return
 	}
 
@@ -45,13 +47,13 @@ func handleAddEdit(ctx *AppContext, isNew bool) {
 	entry := store.NewE212Entry(mcc, mnc, country, operator)
 	err := entry.Validate()
 	if err != nil {
-		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		errRedirect(ctx, "/", "Operation failed: "+err.Error())
 		return
 	}
 
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		errRedirect(ctx, "/", "Operation failed: "+err.Error())
 		return
 	}
 	entry.ID = idInt
@@ -62,7 +64,7 @@ func handleAddEdit(ctx *AppContext, isNew bool) {
 
 	}
 	if err != nil {
-		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		errRedirect(ctx, "/", "Operation failed: "+err.Error())
 		return
 	}
 
