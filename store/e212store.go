@@ -178,6 +178,30 @@ func E212Update(e *E212Entry) error {
 	return err
 }
 
+func E212DeleteById(id int) error {
+	if id == 0 {
+		return ErrEntryMissing
+	}
+
+	stmt, err := gDb.Prepare("DELETE FROM E212 WHERE ID=?")
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+	r, err := stmt.Exec(id)
+
+	if err == nil {
+		var rows int64
+		rows, err = r.RowsAffected()
+		if err == nil && rows == 0 {
+			return ErrEntryMissing
+		}
+	}
+
+	return err
+}
+
 func E212Remove(e *MccMnc) error {
 
 	stmt, err := gDb.Prepare("DELETE FROM  E212 WHERE MCC=? and MNC=?")

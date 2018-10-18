@@ -37,7 +37,10 @@
                             {{range .entries }}
                             <tr>
                                 {{ if $.user }}
-                                <td><button type="button" class="table-edit btn btn-dark  btn-sm" data-toggle="modal" data-target="#editModal" data-xtype="update">Edit</button></td>
+                                <td nowrap>
+                                    <button type="button" class="table-edit btn btn-dark  btn-sm" data-toggle="modal" data-target="#editModal" data-xtype="update">Edit</button>
+                                    <button title="Delete entry" type="button" class="table-edit btn btn-dark  btn-sm" data-toggle="modal" data-target="#deleteModal" data-xtype="delete">X</button>
+                                </td>
                                 <td>{{ .ID }}</td>
                                 {{end}}
                                 <td>{{ .Country }}</td>
@@ -92,6 +95,26 @@
                   </div>
                 </div>
               </div>
+
+              <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirm delete</h5>
+                        </div>
+                        <form method="POST" action="/e212delete">
+                            <div class="modal-body">
+                            <input type="hidden" name="inputID" class="form-control" autocomplete="off" value="1622" required>
+                            Really delete entry ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Yes, delete</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form> 
+                      </div>
+                    </div>
+                  </div>
         {{end}}
         <script type="text/javascript">
             $(document).ready(function() {
@@ -122,6 +145,14 @@
                     modal.find('input[name=inputOperator]').val(operator);
                     modal.find('input[name=inputMCC]').val(mcc);
                     modal.find('input[name=inputMNC]').val(mnc);
+                });
+
+                 $('#deleteModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget)
+                    var modal = $(this)
+                    var id = button.closest("tr").children("td:nth-child(2)").text();
+
+                    modal.find('input[name=inputID]').val(id);
                 });
                 
                 $(".search").keyup(function () {
