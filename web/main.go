@@ -79,6 +79,23 @@ func errRedirect(ctx *routes.AppContext, location string, errMsg string) {
 	ctx.Redirect(location)
 }
 
+func entryDelete(ctx *routes.AppContext) {
+	id := ctx.QueryTrim("inputID")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		errRedirect(ctx, "/", "Update failed: "+err.Error())
+		return
+	}
+
+	err = store.E212DeleteById(idInt)
+	if err != nil {
+		errRedirect(ctx, "/", "Delete failed: "+err.Error())
+		return
+	}
+
+	ctx.Redirect("/")
+}
+
 func entryUpdate(ctx *routes.AppContext) {
 	handleAddEdit(ctx, false)
 }
@@ -175,6 +192,7 @@ func main() {
 
 	r.Post("/e212update", routes.MustBeLoggedIn, entryUpdate)
 	r.Post("/e212add", routes.MustBeLoggedIn, entryAdd)
+	r.Post("/e212delete", routes.MustBeLoggedIn, entryDelete)
 
 	runServer(r)
 }
