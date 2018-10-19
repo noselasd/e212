@@ -5,10 +5,13 @@ import (
 	"os"
 )
 
+var gVersion = "DEVELOPMENT"
+
 func usage() {
 	println("Usage:", os.Args[0], " add mcc mnc country operator")
 	println("      ", os.Args[0], " remove mcc mnc")
 	println("      ", os.Args[0], " newuser loginname email password")
+	println("v.", gVersion)
 	os.Exit(2)
 
 }
