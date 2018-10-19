@@ -19,7 +19,7 @@ func SetHeaders() macaron.Handler {
 	}
 }
 
-func AppContexter() macaron.Handler {
+func AppContexter(appVersion string) macaron.Handler {
 	return func(c *macaron.Context, f *session.Flash, sess session.Store) {
 		ctx := &AppContext{
 			Context: c,
@@ -30,7 +30,7 @@ func AppContexter() macaron.Handler {
 		if user := sess.Get("user"); user != nil {
 			ctx.Data["user"] = user
 		}
-
+		c.Data["appVersion"] = appVersion
 		c.Map(ctx)
 
 	}

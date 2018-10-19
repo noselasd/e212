@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	//"github.com/go-macaron/macaron"
@@ -44,6 +45,13 @@ func runServer(r *macaron.Macaron) {
 }
 
 func main() {
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+		flag.PrintDefaults()
+		fmt.Fprintf(os.Stderr, "\n%s v.%s\n", os.Args[0], gVersion)
+	}
+
 	flag.Parse()
 	err := store.Init("mccmnc.db")
 	if err != nil {
@@ -53,7 +61,7 @@ func main() {
 	r.Use(macaron.Renderer())
 	r.Use(session.Sessioner())
 	r.Use(routes.SetHeaders())
-	r.Use(routes.AppContexter())
+	r.Use(routes.AppContexter(gVersion))
 	routes.InstallRoutes(r)
 	runServer(r)
 }
