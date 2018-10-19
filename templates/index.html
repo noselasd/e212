@@ -1,12 +1,12 @@
 {{template "header" .}}
 
         
-        <div class="row pt-4 ">
-            <div class="col-sm-3">
+        <div class="row pt-1">
+            <div class="col-sm-3 m-0">
                     <input class="col-sm search" autocomplete="off" type="search" placeholder="Filter">
             </div>
-            <div class="col-sm-8">
-                    <h2>E.212 MCC/MNC Entries</h2>
+            <div class="col-sm-8 n-0">
+                    <h2 class="m-0">E.212 MCC/MNC Entries</h2>
             </div>
         </div>
         {{ if $.user }}
@@ -17,7 +17,7 @@
         </div>
         {{end}}
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 ">
                 <div class="table-responsive">
                     <table summary="E212 Entries" class="table results sortable table-bordered table-sm table-hover">
 

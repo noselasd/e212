@@ -50,7 +50,11 @@ table caption {
   box-shadow: 0 0 5px #1d2124  !important;
 }
 
-.modal-title
-{
+.modal-title {
     text-transform:capitalize;
+}
+
+tr td{
+  padding: 0 !important;
+  margin: 0 !important;
 }
