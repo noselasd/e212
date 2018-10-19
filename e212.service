@@ -1,0 +1,16 @@
+[Unit]
+Description=E212 webapp
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/e212
+StandardOutput=journal
+StandardError=journal
+User=nobody
+ExecStart=/opt/e212/e212
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
