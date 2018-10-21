@@ -2,6 +2,7 @@ package routes
 
 import (
 	"e212/store"
+	"log"
 
 	"github.com/go-macaron/session"
 	macaron "gopkg.in/macaron.v1"
@@ -11,6 +12,7 @@ type AppContext struct {
 	*macaron.Context
 	Flash   *session.Flash
 	Session session.Store
+	Logger  *log.Logger
 }
 
 func SetHeaders() macaron.Handler {
@@ -20,11 +22,12 @@ func SetHeaders() macaron.Handler {
 }
 
 func AppContexter(appVersion string) macaron.Handler {
-	return func(c *macaron.Context, f *session.Flash, sess session.Store) {
+	return func(c *macaron.Context, f *session.Flash, sess session.Store, log *log.Logger) {
 		ctx := &AppContext{
 			Context: c,
 			Flash:   f,
 			Session: sess,
+			Logger:  log,
 		}
 
 		if user := sess.Get("user"); user != nil {

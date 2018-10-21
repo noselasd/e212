@@ -9,6 +9,9 @@ func errRedirect(ctx *AppContext, location string, errMsg string) {
 	ctx.Flash.Error(errMsg)
 	ctx.Header().Set("Warning", errMsg)
 	ctx.Header().Set("Status", "400 request error")
+
+	ctx.Logger.Printf("%s %s failed: %s\n ", ctx.Req.Method, ctx.Req.URL, errMsg)
+
 	ctx.Redirect(location)
 }
 
