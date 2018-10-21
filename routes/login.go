@@ -24,7 +24,6 @@ func tryLogin(ctx *AppContext) (*store.User, error) {
 			ctx.Data["user"] = user
 		} else {
 			err = errors.New("Password does not match")
-
 		}
 	}
 
@@ -32,8 +31,15 @@ func tryLogin(ctx *AppContext) (*store.User, error) {
 }
 
 func logout(ctx *AppContext) {
+
+	user, ok := ctx.Session.Get("user").(*store.User)
+
 	ctx.Session.Delete("user")
 	delete(ctx.Data, "user")
+
+	if ok {
+		ctx.Logger.Printf("User %s logged out\n", user.LoginName)
+	}
 	ctx.Redirect("/")
 }
 
@@ -41,11 +47,13 @@ func loginPost(ctx *AppContext) {
 	ctx.Data["need_sorting"] = false
 	ctx.Data["nav"] = "login"
 	ctx.Data["title"] = "Admin Login"
-	_, err := tryLogin(ctx)
+	user, err := tryLogin(ctx)
 	if err != nil {
 		ctx.Flash.Error("Unknown user or password", true)
+		ctx.Logger.Printf("User %s failed login\n", user.LoginName)
 		ctx.HTML(400, "login")
 		return
 	}
+	ctx.Logger.Printf("User %s logged in\n", user.LoginName)
 	ctx.Redirect("/")
 }

@@ -10,7 +10,7 @@ type jsonErr struct {
 
 func jsonError(httpStatus int, err error, ctx *AppContext) {
 	e := jsonErr{Error: err.Error()}
-
+	ctx.Logger.Printf("%s %s failed: %v\n ", ctx.Req.Method, ctx.Req.URL, e)
 	ctx.JSON(httpStatus, &e)
 }
 
