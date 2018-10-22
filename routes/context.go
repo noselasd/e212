@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"e212/store"
 	"log"
 
 	"github.com/go-macaron/session"
@@ -37,19 +36,4 @@ func AppContexter(appVersion string) macaron.Handler {
 		c.Map(ctx)
 
 	}
-}
-
-func MustBeLoggedIn(ctx *AppContext) {
-	var isLoggedIn bool
-	user := ctx.Session.Get("user")
-	if user != nil {
-		if userObj, ok := user.(*store.User); ok {
-			isLoggedIn = userObj.ID > 0
-		}
-	}
-
-	if !isLoggedIn {
-		ctx.Error(403, "You are not authorized")
-	}
-
 }
