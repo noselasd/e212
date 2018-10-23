@@ -68,8 +68,7 @@ func DeleteByMCCMNC(ctx *AppContext) {
 	ctx.Status(204)
 }
 
-func UpdateByMCCMNC(ctx *AppContext) {
-
+func readJsonEntry(ctx *AppContext) (*store.E212Entry, error) {
 	bodyReader := ctx.Req.Body().ReadCloser()
 	defer bodyReader.Close()
 
@@ -77,6 +76,13 @@ func UpdateByMCCMNC(ctx *AppContext) {
 	var entry store.E212Entry
 
 	err := decoder.Decode(&entry)
+
+	return &entry, err
+}
+
+func UpdateByMCCMNC(ctx *AppContext) {
+
+	entry, err := readJsonEntry(ctx)
 	if err != nil {
 		jsonError(400, err, ctx)
 		return
@@ -94,7 +100,7 @@ func UpdateByMCCMNC(ctx *AppContext) {
 	}
 	entry.ID = e.ID
 
-	err = store.E212Update(&entry)
+	err = store.E212Update(entry)
 	if err != nil {
 		jsonError(500, err, ctx)
 		return
@@ -105,13 +111,7 @@ func UpdateByMCCMNC(ctx *AppContext) {
 
 func CreateEntry(ctx *AppContext) {
 
-	bodyReader := ctx.Req.Body().ReadCloser()
-	defer bodyReader.Close()
-
-	decoder := json.NewDecoder(bodyReader)
-	var entry store.E212Entry
-
-	err := decoder.Decode(&entry)
+	entry, err := readJsonEntry(ctx)
 	if err != nil {
 		jsonError(400, err, ctx)
 		return
@@ -123,7 +123,7 @@ func CreateEntry(ctx *AppContext) {
 	}
 	entry.ID = 0
 
-	err = store.E212Add(&entry)
+	err = store.E212Add(entry)
 	if err != nil {
 		jsonError(500, err, ctx)
 		return
