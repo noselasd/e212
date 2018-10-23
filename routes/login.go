@@ -53,7 +53,7 @@ func loginPost(ctx *AppContext) {
 	user, err := tryLogin(ctx)
 	if err != nil {
 		ctx.Flash.Error("Unknown user or password", true)
-		ctx.Logger.Printf("%s: User %s failed login\n", time.Now().Format(macaron.LogTimeFormat), user.LoginName)
+		ctx.Logger.Printf("%s: User %s failed login\n", time.Now().Format(macaron.LogTimeFormat), ctx.QueryTrim("inputUsername"))
 		ctx.HTML(400, "login")
 		return
 	}
