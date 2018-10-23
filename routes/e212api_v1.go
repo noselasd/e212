@@ -4,6 +4,9 @@ import (
 	"e212/store"
 	"encoding/json"
 	"errors"
+	"time"
+
+	macaron "gopkg.in/macaron.v1"
 )
 
 type jsonErr struct {
@@ -12,7 +15,7 @@ type jsonErr struct {
 
 func jsonError(httpStatus int, err error, ctx *AppContext) {
 	e := jsonErr{Error: err.Error()}
-	ctx.Logger.Printf("%s %s failed: %v\n ", ctx.Req.Method, ctx.Req.URL, e)
+	ctx.Logger.Printf("%s: %s %s failed: %v\n ", time.Now().Format(macaron.LogTimeFormat), ctx.Req.Method, ctx.Req.URL, e)
 	ctx.JSON(httpStatus, &e)
 }
 
