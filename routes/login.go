@@ -3,6 +3,9 @@ package routes
 import (
 	"e212/store"
 	"errors"
+	"time"
+
+	macaron "gopkg.in/macaron.v1"
 )
 
 func loginGet(ctx *AppContext) {
@@ -38,7 +41,7 @@ func logout(ctx *AppContext) {
 	delete(ctx.Data, "user")
 
 	if ok {
-		ctx.Logger.Printf("User %s logged out\n", user.LoginName)
+		ctx.Logger.Printf("%s: User %s logged out\n", time.Now().Format(macaron.LogTimeFormat), user.LoginName)
 	}
 	ctx.Redirect("/")
 }
@@ -50,10 +53,10 @@ func loginPost(ctx *AppContext) {
 	user, err := tryLogin(ctx)
 	if err != nil {
 		ctx.Flash.Error("Unknown user or password", true)
-		ctx.Logger.Printf("User %s failed login\n", user.LoginName)
+		ctx.Logger.Printf("%s: User %s failed login\n", time.Now().Format(macaron.LogTimeFormat), user.LoginName)
 		ctx.HTML(400, "login")
 		return
 	}
-	ctx.Logger.Printf("User %s logged in\n", user.LoginName)
+	ctx.Logger.Printf("%s: User %s logged in\n", time.Now().Format(macaron.LogTimeFormat), user.LoginName)
 	ctx.Redirect("/")
 }

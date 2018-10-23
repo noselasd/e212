@@ -3,6 +3,9 @@ package routes
 import (
 	"e212/store"
 	"strconv"
+	"time"
+
+	macaron "gopkg.in/macaron.v1"
 )
 
 func errRedirect(ctx *AppContext, location string, errMsg string) {
@@ -10,7 +13,7 @@ func errRedirect(ctx *AppContext, location string, errMsg string) {
 	ctx.Header().Set("Warning", errMsg)
 	ctx.Header().Set("Status", "400 request error")
 
-	ctx.Logger.Printf("%s %s failed: %s\n ", ctx.Req.Method, ctx.Req.URL, errMsg)
+	ctx.Logger.Printf("%s: %s %s failed: %s\n ", time.Now().Format(macaron.LogTimeFormat), ctx.Req.Method, ctx.Req.URL, errMsg)
 
 	ctx.Redirect(location)
 }
