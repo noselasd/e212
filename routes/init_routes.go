@@ -24,6 +24,9 @@ func InstallRoutes(r *macaron.Macaron) {
 		r.Get("/e212", ListMCCMNC)
 		r.Get("/e212/:mcc", GetByMCC)
 		r.Get("/e212/:mcc/:mnc", GetByMCCMNC)
+		r.Delete("/e212/:mcc/:mnc", mustBeLoggedIn, DeleteByMCCMNC)
+		r.Put("/e212/update", mustBeLoggedIn, UpdateByMCCMNC)
+		r.Post("/e212/create", mustBeLoggedIn, CreateEntry)
 	})
 
 	r.Get("/", home)

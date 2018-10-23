@@ -9,7 +9,7 @@ import (
 
 type MccMnc struct {
 	Mcc string `json:"mcc"`
-	Mnc string `json:"nnc"`
+	Mnc string `json:"mnc"`
 }
 
 func (v *MccMnc) String() string {

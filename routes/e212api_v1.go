@@ -2,6 +2,8 @@ package routes
 
 import (
 	"e212/store"
+	"encoding/json"
+	"errors"
 )
 
 type jsonErr struct {
@@ -45,4 +47,87 @@ func GetByMCCMNC(ctx *AppContext) {
 	} else {
 		jsonError(404, err, ctx)
 	}
+}
+
+func DeleteByMCCMNC(ctx *AppContext) {
+	mcc := ctx.Params("mcc")
+	mnc := ctx.Params("mnc")
+
+	e, err := store.E212GetByMccMnc(&store.MccMnc{Mcc: mcc, Mnc: mnc})
+	if err != nil {
+		jsonError(404, err, ctx)
+		return
+	}
+
+	err = store.E212DeleteById(e.ID)
+	if err != nil {
+		jsonError(500, err, ctx)
+		return
+	}
+
+	ctx.Status(204)
+}
+
+func UpdateByMCCMNC(ctx *AppContext) {
+
+	bodyReader := ctx.Req.Body().ReadCloser()
+	defer bodyReader.Close()
+
+	decoder := json.NewDecoder(bodyReader)
+	var entry store.E212Entry
+
+	err := decoder.Decode(&entry)
+	if err != nil {
+		jsonError(400, err, ctx)
+		return
+	}
+
+	if err = entry.Validate(); err != nil {
+		jsonError(400, errors.New("Validation error"), ctx)
+		return
+	}
+
+	e, err := store.E212GetByMccMnc(&entry.Code)
+	if err != nil {
+		jsonError(404, err, ctx)
+		return
+	}
+	entry.ID = e.ID
+
+	err = store.E212Update(&entry)
+	if err != nil {
+		jsonError(500, err, ctx)
+		return
+	}
+
+	ctx.Status(204)
+}
+
+func CreateEntry(ctx *AppContext) {
+
+	bodyReader := ctx.Req.Body().ReadCloser()
+	defer bodyReader.Close()
+
+	decoder := json.NewDecoder(bodyReader)
+	var entry store.E212Entry
+
+	err := decoder.Decode(&entry)
+	if err != nil {
+		jsonError(400, err, ctx)
+		return
+	}
+
+	if err = entry.Validate(); err != nil {
+		jsonError(400, errors.New("Validation error"), ctx)
+		return
+	}
+	entry.ID = 0
+
+	err = store.E212Add(&entry)
+	if err != nil {
+		jsonError(500, err, ctx)
+		return
+	}
+
+	ctx.Status(204)
 }
