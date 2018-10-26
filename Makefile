@@ -2,7 +2,9 @@ TAR?=tar
 VERSION=$(shell git describe --tags --long --abbrev=4 --dirty=-D)
 DISTDIR=e212-$(VERSION)
 
-.PHONY: e212 dist e212-$(VERSION) e212_cmd clean
+.PHONY: e212 dist e212-$(VERSION) e212_cmd clean all
+all: e212 e212_cmd
+
 e212:
 	go build -o $@ --ldflags "-X main.gVersion=$(VERSION)" web/main.go 
 e212_cmd:
