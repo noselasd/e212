@@ -1,6 +1,6 @@
 TAR?=tar
-VERSION=$(shell git describe --tags --long --abbrev=4 --dirty=-D)
-DISTDIR=e212-$(VERSION)
+VERSION:=$(shell git describe --tags --long --abbrev=4 --dirty=-D)
+DISTDIR:=e212-$(VERSION)
 
 .PHONY: e212 dist e212-$(VERSION) e212_cmd clean all
 all: e212 e212_cmd
