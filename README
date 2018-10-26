@@ -3,14 +3,23 @@ ABOUT
 Web application to list E.212 MCC/MNC codes. 
 
 This is a small/simple web application made for learning golang and
-web development.
+web development. It contains a bit og random features,
+
+* Uses the go-macaron webapp framework
+* Login/Logout of web application
+* Authorization of access to certain URLs
+* golang HTML templating
+* Bootstrap4/JQuery/HTML5 experimentation
+* HTTP post to do CRUD
+* Json API to do CRUD
+* sqlite3 database for data storage (No ORM, hand written SQL)
 
 Build/Run
 =========
 1. Install golang (http://golang.org)
     When $GOPATH is not set, it refers to $HOME/go/
 
-2. Install sqlite2 so you can run the sqlite3 command
+2. Install sqlite3 so you can run the sqlite3 command
 
 3. clone the repository to your $GOPATH/go/src
    (default should just be to place it in $HOME/go/src, so the files are 
