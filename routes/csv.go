@@ -13,7 +13,16 @@ func csvExport(ctx *AppContext) {
 	if err != nil {
 		ctx.Error(500, err.Error())
 	}
+
+	separator := ','
+	reqSep := ctx.Query("separator")
+	if len(reqSep) == 1 {
+		separator = rune(reqSep[0])
+	}
+
 	csvWr := csv.NewWriter(ctx.Resp)
+	csvWr.Comma = separator
+
 	ctx.Resp.Header().Set("content-disposition", "attachment; filename=\"e212.csv\"")
 	defer csvWr.Flush()
 
