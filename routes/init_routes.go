@@ -30,6 +30,7 @@ func InstallRoutes(r *macaron.Macaron) {
 	})
 
 	r.Get("/", home)
+	r.Get("/csvexport", csvExport)
 	r.Get("/login", loginGet)
 	r.Post("/login", loginPost)
 	r.Post("/logout", logout)
