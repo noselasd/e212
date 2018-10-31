@@ -8,6 +8,21 @@ import (
 	macaron "gopkg.in/macaron.v1"
 )
 
+func getCurrentEditItem(ctx *AppContext) *store.E212Entry {
+	e := ctx.Session.Get("editentry")
+	if e != nil {
+		if eObj, ok := e.(*store.E212Entry); ok {
+			return eObj
+		}
+	}
+
+	return &store.E212Entry{}
+}
+
+func setCurrentEditItem(ctx *AppContext, e *store.E212Entry) {
+	ctx.Session.Set("editentry", e)
+}
+
 func errRedirect(ctx *AppContext, location string, errMsg string) {
 	ctx.Flash.Error(errMsg)
 	ctx.Header().Set("Warning", errMsg)
@@ -19,6 +34,8 @@ func errRedirect(ctx *AppContext, location string, errMsg string) {
 }
 
 func entryDelete(ctx *AppContext) {
+	ctx.Data["editentry"] = getCurrentEditItem(ctx)
+
 	id := ctx.QueryTrim("inputID")
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
@@ -51,6 +68,8 @@ func handleAddEdit(ctx *AppContext, isNew bool) {
 	mnc := ctx.QueryTrim("inputMNC")
 
 	entry := store.NewE212Entry(mcc, mnc, country, operator)
+	setCurrentEditItem(ctx, entry)
+
 	err := entry.Validate()
 	if err != nil {
 		errRedirect(ctx, "/", "Operation failed: "+err.Error())

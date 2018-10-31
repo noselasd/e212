@@ -11,6 +11,6 @@ func home(ctx *AppContext) {
 	ctx.Data["nav"] = "home"
 	ctx.Data["title"] = "E212 Database"
 	ctx.Data["entries"] = entries
-
+	ctx.Data["editentry"] = getCurrentEditItem(ctx)
 	ctx.HTML(200, "index")
 }

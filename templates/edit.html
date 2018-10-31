@@ -6,14 +6,14 @@
         </div>
         <form id="editForm" method="POST">
             <div class="modal-body">
-                <label for="inputCountry">Country</label>
-                <input type="text" name="inputCountry" id="inputCountry" class="form-control" autocomplete="off" required autofocus>
+                <label for="inputCountry">Country</label> 
+                <input type="text" name="inputCountry" id="inputCountry" value="{{ .editentry.Country }}" class="form-control" autocomplete="off" required autofocus>
                 <label for="inputOperator">Operator</label>
-                <input type="text" name="inputOperator" id="inputOperator" class="form-control" autocomplete="off" required>
+                <input type="text" name="inputOperator" id="inputOperator" value="{{ .editentry.Operator }}"class="form-control" autocomplete="off" required>
                 <label for="inputMCC">MCC</label>
-                <input type="text" name="inputMCC" id="inputMCC" class="form-control" autocomplete="off" required>
+                <input type="text" name="inputMCC" id="inputMCC" value="{{ .editentry.Code.Mcc }}" class="form-control" autocomplete="off" required>
                 <label for="inputMNC">MNC</label>
-                <input type="text" name="inputMNC" id="inputMNC" class="form-control" autocomplete="off" required>
+                <input type="text" name="inputMNC" id="inputMNC" value="{{ .editentry.Code.Mnc }}" class="form-control" autocomplete="off" required>
                 <input type="hidden" name="inputID" id="inputID" class="form-control" required>
             </div>
             <div class="modal-footer">
@@ -51,6 +51,7 @@ $(document).ready(function() {
     $('#editModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
         var type = button.data('xtype')
+        console.log(type)
         var modal = $(this)
         
         $('#editForm').attr('action', '/e212' + type)
@@ -62,19 +63,22 @@ $(document).ready(function() {
         var mnc = "";
 
         if (type === "update") {
-            id = button.closest("tr").children("td:nth-child(2)").text();
+            
             country = button.closest("tr").children("td:nth-child(3)").text();
             operator = button.closest("tr").children("td:nth-child(4)").text();
             mccmnc = button.closest("tr").children("td:nth-child(5)").text();
             mcc = mccmnc.split(' ')[0];
             mnc = mccmnc.split(' ')[1];
-        }
 
+    
+            id = button.closest("tr").children("td:nth-child(2)").text();
+            $('#inputCountry').val(country);
+            $('#inputOperator').val(operator);
+            $('#inputMCC').val(mcc);
+            $('#inputMNC').val(mnc);
+        }
         $('#inputID').val(id);
-        $('#inputCountry').val(country);
-        $('#inputOperator').val(operator);
-        $('#inputMCC').val(mcc);
-        $('#inputMNC').val(mnc);
+
     });
 
     $('#editModal').on('shown.bs.modal', function (event) {
