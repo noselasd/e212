@@ -5,6 +5,9 @@ import (
 	"errors"
 	"net/http"
 	"strings"
+	"time"
+
+	macaron "gopkg.in/macaron.v1"
 )
 
 func acceptsJson(ctx *AppContext) bool {
@@ -47,4 +50,29 @@ func mustBeLoggedIn(ctx *AppContext) {
 			ctx.Error(403, err.Error())
 		}
 	}
+}
+
+func getCurrentEditItem(ctx *AppContext) *store.E212Entry {
+	e := ctx.Session.Get("editentry")
+	if e != nil {
+		if eObj, ok := e.(*store.E212Entry); ok {
+			return eObj
+		}
+	}
+
+	return &store.E212Entry{}
+}
+
+func setCurrentEditItem(ctx *AppContext, e *store.E212Entry) {
+	ctx.Session.Set("editentry", e)
+}
+
+func errRedirect(ctx *AppContext, location string, errMsg string) {
+	ctx.Flash.Error(errMsg)
+	ctx.Header().Set("Warning", errMsg)
+	ctx.Header().Set("Status", "400 request error")
+
+	ctx.Logger.Printf("%s: %s %s failed: %s\n ", time.Now().Format(macaron.LogTimeFormat), ctx.Req.Method, ctx.Req.URL, errMsg)
+
+	ctx.Redirect(location)
 }
