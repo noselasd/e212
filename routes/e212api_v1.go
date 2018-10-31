@@ -19,7 +19,7 @@ func jsonError(httpStatus int, err error, ctx *AppContext) {
 	ctx.JSON(httpStatus, &e)
 }
 
-func ListMCCMNC(ctx *AppContext) {
+func listMCCMNC(ctx *AppContext) {
 	e, err := store.E212GetAll()
 	if err != nil {
 		jsonError(500, err, ctx)
@@ -28,7 +28,7 @@ func ListMCCMNC(ctx *AppContext) {
 	}
 }
 
-func GetByMCC(ctx *AppContext) {
+func getByMCC(ctx *AppContext) {
 
 	mcc := ctx.Params("mcc")
 
@@ -40,7 +40,7 @@ func GetByMCC(ctx *AppContext) {
 	}
 }
 
-func GetByMCCMNC(ctx *AppContext) {
+func getByMCCMNC(ctx *AppContext) {
 	mcc := ctx.Params("mcc")
 	mnc := ctx.Params("mnc")
 
@@ -52,7 +52,7 @@ func GetByMCCMNC(ctx *AppContext) {
 	}
 }
 
-func DeleteByMCCMNC(ctx *AppContext) {
+func deleteByMCCMNC(ctx *AppContext) {
 	mcc := ctx.Params("mcc")
 	mnc := ctx.Params("mnc")
 
@@ -83,7 +83,7 @@ func readJsonEntry(ctx *AppContext) (*store.E212Entry, error) {
 	return &entry, err
 }
 
-func UpdateByMCCMNC(ctx *AppContext) {
+func updateByMCCMNC(ctx *AppContext) {
 
 	entry, err := readJsonEntry(ctx)
 	if err != nil {
@@ -112,7 +112,7 @@ func UpdateByMCCMNC(ctx *AppContext) {
 	ctx.Status(204)
 }
 
-func CreateEntry(ctx *AppContext) {
+func createEntry(ctx *AppContext) {
 
 	entry, err := readJsonEntry(ctx)
 	if err != nil {

@@ -5,11 +5,6 @@ import (
 )
 
 func InstallRoutes(r *macaron.Macaron) {
-	r.Group("/e212api.v1/", func() {
-		r.Get("/e212", ListMCCMNC)
-		r.Get("/e212/:mcc", GetByMCC)
-		r.Get("/e212/:mcc/:mnc", GetByMCCMNC)
-	})
 
 	r.Get("/", home)
 	r.Get("/login", loginGet)
@@ -21,12 +16,12 @@ func InstallRoutes(r *macaron.Macaron) {
 	r.Post("/e212delete", mustBeLoggedIn, entryDelete)
 
 	r.Group("/e212api.v1/", func() {
-		r.Get("/e212", ListMCCMNC)
-		r.Get("/e212/:mcc", GetByMCC)
-		r.Get("/e212/:mcc/:mnc", GetByMCCMNC)
-		r.Delete("/e212/:mcc/:mnc", mustBeLoggedIn, DeleteByMCCMNC)
-		r.Put("/e212/update", mustBeLoggedIn, UpdateByMCCMNC)
-		r.Post("/e212/create", mustBeLoggedIn, CreateEntry)
+		r.Get("/e212", listMCCMNC)
+		r.Get("/e212/:mcc", getByMCC)
+		r.Get("/e212/:mcc/:mnc", getByMCCMNC)
+		r.Delete("/e212/:mcc/:mnc", mustBeLoggedIn, deleteByMCCMNC)
+		r.Put("/e212/update", mustBeLoggedIn, updateByMCCMNC)
+		r.Post("/e212/create", mustBeLoggedIn, createEntry)
 	})
 
 	r.Get("/", home)
