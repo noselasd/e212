@@ -24,6 +24,7 @@ func csvExport(ctx *AppContext) {
 	csvWr.Comma = separator
 
 	ctx.Resp.Header().Set("content-disposition", "attachment; filename=\"e212.csv\"")
+	ctx.Resp.Header().Set("content-type", "text/csv")
 	defer csvWr.Flush()
 
 	csvHeaders := []string{"Country", "Operator", "MCC", "MNC"}
