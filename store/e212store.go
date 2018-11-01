@@ -23,6 +23,15 @@ type E212Entry struct {
 	Operator string `json:"operator"`
 }
 
+func isAsciiDigits(s string) bool {
+	const digits = "0123456789"
+	for _,r := range s {
+		if !strings.ContainsRune(digits, r) {
+			return false
+		}
+	}
+	return len(s) > 0
+}
 func (e *E212Entry) Validate() error {
 	if len(e.Country) == 0 {
 		return errors.New("Invalid Country")
@@ -30,10 +39,10 @@ func (e *E212Entry) Validate() error {
 	if len(e.Operator) == 0 {
 		return errors.New("Invalid Operator")
 	}
-	if len(e.Code.Mcc) == 0 {
+	if !isAsciiDigits(e.Code.Mcc)  {
 		return errors.New("Invalid MCC")
 	}
-	if len(e.Code.Mnc) == 0 {
+	if !isAsciiDigits(e.Code.Mnc) {
 		return errors.New("Invalid Mnc")
 	}
 
