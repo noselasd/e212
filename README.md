@@ -14,7 +14,7 @@ web development. It contains a bit og random features,
 * Json API to do CRUD
 * sqlite3 database for data storage (No ORM, hand written SQL)
 
-![Anonymous users](https://i.imgur.com/45xAWgu.png)
+![Anonymous users](https://i.imgur.com/vhbBmaJ.png)
 
 ![Admin users](https://i.imgur.com/nodnCpc.png)
 
