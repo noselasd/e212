@@ -6,6 +6,7 @@ func home(ctx *AppContext) {
 	entries, err := store.E212GetAll()
 	if err != nil {
 		ctx.Error(500, err.Error())
+		return
 	}
 	ctx.Data["need_sorting"] = true
 	ctx.Data["nav"] = "home"
