@@ -25,7 +25,7 @@ type E212Entry struct {
 
 func isAsciiDigits(s string) bool {
 	const digits = "0123456789"
-	for _,r := range s {
+	for _, r := range s {
 		if !strings.ContainsRune(digits, r) {
 			return false
 		}
@@ -39,7 +39,7 @@ func (e *E212Entry) Validate() error {
 	if len(e.Operator) == 0 {
 		return errors.New("Invalid Operator")
 	}
-	if !isAsciiDigits(e.Code.Mcc)  {
+	if !isAsciiDigits(e.Code.Mcc) {
 		return errors.New("Invalid MCC")
 	}
 	if !isAsciiDigits(e.Code.Mnc) {
@@ -141,6 +141,10 @@ func E212GetByMcc(mcc string) ([]E212Entry, error) {
 			rs.Close()
 			return entries, err
 		}
+	}
+
+	if len(entries) == 0 {
+		return nil, ErrEntryMissing
 	}
 
 	return entries, err
