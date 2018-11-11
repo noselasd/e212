@@ -1,0 +1,135 @@
+{{template "header" .}}
+
+<div class="row pt-1">
+    <div class="col-sm-12 m-0">
+        <h2 class="btn-dark p-1">About</h2>
+        <p>This site provides a Json API to fetch the MCC/MNC codes</p>
+        <p>All requests to the JSON API should include <strong>application/json</strong>
+           in the <strong>Accept</strong> HTTP Header</p>
+        <p>API calls returning an error, a non 2xx HTTP status code, will also return a JSON object on the format:
+        <div class="highlight">
+            <pre>
+                <code class="language-html" data-lang="html">
+{
+    "errormessage":"Entry missing"
+} 
+                </code>
+                </pre>
+            </div>
+        </p>
+        <h2 class="btn-dark p-1">List all MCC/MNC Codes</h2>
+
+        <p><strong>URL</strong> /e212api.v1/e212/</p>
+
+        <h4>Parameters</h4><p>None</p>
+        <h4>Method</h4><p>GET</p>
+        <h4>Success HTTP Status code</h4><p>200</p>
+        <h4>Example Response</h4>
+        <p>GET Request for URL /e212api.v1/e212/ returns an arry of MCC/MNC entries</p>
+        <div class="highlight">
+            <pre>
+                <code class="language-html" data-lang="html">
+[
+{
+    "code": {
+        "mcc": "412",
+        "mnc": "01"
+    },
+    "country": "Afghanistan",
+    "operator": "AWCC"
+},
+{
+    "code": {
+        "mcc": "412",
+        "mnc": "20"
+    },
+    "country": "Afghanistan",
+    "operator": "Roshan"
+}
+]                    </code>
+                </pre>
+            </div>
+            
+        <h2 class="btn-dark p-1">List all MCC/MNC Codes with a given MCC</h2>
+
+        <p><strong>URL</strong> /e212api.v1/e212/:mcc</p>
+        <h4>Parameters</h4>
+        <p><strong>:mcc</strong> The MCC code to list</p>
+        <h4>Success HTTP Status code</h4><p>200</p>
+        <h4>Error HTTP Status code</h4>
+        <p>404 when the given :mcc is not found</p>
+        <h4>Example Response</h4>
+        <p>GET Request for URL /e212api.v1/e212/412 returns an arry of MCC/MNC entries</p>
+        <div class="highlight">
+            <pre>
+                <code class="language-html" data-lang="html">
+    [
+    {
+        "code": {
+            "mcc": "412",
+            "mnc": "01"
+        },
+        "country": "Afghanistan",
+        "operator": "AWCC"
+    },
+    {
+        "code": {
+            "mcc": "412",
+            "mnc": "20"
+        },
+        "country": "Afghanistan",
+        "operator": "Roshan"
+    }
+    ]                    
+            </code>
+        </pre>
+    </div>
+    <p>GET Request for URL /e212api.v1/e212/12345 returns a 404 error</p>
+    <div class="highlight">
+            <pre>
+                <code class="language-html" data-lang="html">
+{
+    "errormessage":"Entry missing"
+} 
+            </code>
+        </pre>
+    </div>
+    <h2 class="btn-dark p-1">Get MCC/MNC entry for the given MCC/MNC</h2>
+
+        <p><strong>URL</strong> /e212api.v1/e212/:mcc/:mnc</p>
+        <h4>Parameters</h4>
+        <p><strong>:mcc</strong> The MCC code to get</p>
+        <p><strong>:mcc</strong> The MNC code to get</p>
+        <h4>Success HTTP Status code</h4><p>200</p>
+        <h4>Error HTTP Status code</h4>
+        <p>404 when the given :mcc and :mnc is not found</p>
+        <h4>Example Response</h4>
+        <p>GET Request for URL /e212api.v1/e212/412/01 returns an MCC/MNC entry</p>
+        <div class="highlight">
+            <pre>
+                <code class="language-html" data-lang="html">
+    {
+        "code": {
+            "mcc": "412",
+            "mnc": "01"
+        },
+        "country": "Afghanistan",
+        "operator": "AWCC"
+    }
+
+            </code>
+        </pre>
+    </div>
+    <p>GET Request for URL /e212api.v1/e212/242/999 returns a 404 error</p>
+    <div class="highlight">
+            <pre>
+                <code class="language-html" data-lang="html">
+{
+    "errormessage":"Entry missing"
+} 
+            </code>
+        </pre>
+    </div>
+</div>
+
+{{template "footer" .}}

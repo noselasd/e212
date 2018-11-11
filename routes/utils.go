@@ -24,12 +24,12 @@ func e212InternalServerError(ctx *AppContext, err error) {
 	}
 }
 
-func e212NotFound(ctx *AppContext, req *http.Request) {
+func e212NotFound(ctx *AppContext) {
 
 	if acceptsJson(ctx) {
 		jsonError(404, errors.New("Not Found"), ctx)
 	} else {
-		http.NotFound(ctx.Resp, req)
+		http.NotFound(ctx.Resp, ctx.Req.Request)
 	}
 }
 

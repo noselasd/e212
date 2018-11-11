@@ -24,15 +24,12 @@ func InstallRoutes(r *macaron.Macaron) {
 		r.Post("/e212/create", mustBeLoggedIn, createEntry)
 	})
 
-	r.Get("/", home)
-	r.Get("/csvexport", csvExport)
-	r.Get("/login", loginGet)
-	r.Post("/login", loginPost)
-	r.Post("/logout", logout)
-
-	r.Post("/e212update", mustBeLoggedIn, entryUpdate)
-	r.Post("/e212add", mustBeLoggedIn, entryAdd)
-	r.Post("/e212delete", mustBeLoggedIn, entryDelete)
+	r.Get("/about", func(ctx *AppContext) {
+		otherPagesGet(ctx, "about")
+	})
+	r.Get("/json-api", func(ctx *AppContext) {
+		otherPagesGet(ctx, "json-api")
+	})
 
 	r.InternalServerError(e212InternalServerError)
 	r.NotFound(e212NotFound)

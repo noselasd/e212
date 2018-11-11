@@ -1,6 +1,8 @@
 package routes
 
-import "e212/store"
+import (
+	"e212/store"
+)
 
 func home(ctx *AppContext) {
 	entries, err := store.E212GetAll()
@@ -14,4 +16,10 @@ func home(ctx *AppContext) {
 	ctx.Data["entries"] = entries
 	ctx.Data["editentry"] = getCurrentEditItem(ctx)
 	ctx.HTML(200, "index")
+}
+
+func otherPagesGet(ctx *AppContext, page string) {
+	ctx.Data["nav"] = page
+	ctx.Data["title"] = page
+	ctx.HTML(200, page)
 }
