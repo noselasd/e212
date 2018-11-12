@@ -10,7 +10,7 @@ func InstallRoutes(r *macaron.Macaron) {
 	r.Get("/login", loginGet)
 	r.Post("/login", loginPost)
 	r.Post("/logout", logout)
-
+	r.Get("/csvexport", csvExport)
 	r.Post("/e212update", mustBeLoggedIn, entryUpdate)
 	r.Post("/e212add", mustBeLoggedIn, entryAdd)
 	r.Post("/e212delete", mustBeLoggedIn, entryDelete)
