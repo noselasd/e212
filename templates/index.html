@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-sm-12 ">
                 <div class="table-responsive">
-                    <table summary="E212 Entries" class="table results sortable table-bordered table-sm table-hover">
+                    <table class="table results sortable table-bordered table-sm table-hover">
 
                         <thead class="bg-dark text-white">
                             <tr>
@@ -56,7 +56,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4" class="text-center">Data retrieved from <a href="https://www.itu.int/" target="_blank">ITU</a></td>
+                                <td colspan="3" class="text-center">Data retrieved from <a href="https://www.itu.int/" target="_blank">ITU</a></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -75,7 +75,7 @@
         {{template "edit" .}}
         
         {{end}}
-        <script type="text/javascript">
+        <script>
             $(document).ready(function() {
                
                 $(".search").keyup(function () {
