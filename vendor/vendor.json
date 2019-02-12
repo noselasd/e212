@@ -23,42 +23,42 @@
 			"revisionTime": "2016-06-27T17:00:12Z"
 		},
 		{
-			"checksumSHA1": "kIAal4eNygfsFJc1a8leDyD1i4c=",
+			"checksumSHA1": "MU5Cs6v8HI6x2fl0XTWk2PoVjkU=",
 			"path": "github.com/go-macaron/macaron",
-			"revision": "9f1e9720ca1c21233db3b230a56e8842bb420ed1",
-			"revisionTime": "2018-09-10T19:27:41Z",
+			"revision": "dfcb80ca86e8534962c62812efd93209c7e600e7",
+			"revisionTime": "2018-12-17T00:30:54Z",
 			"version": "master",
 			"versionExact": "master"
 		},
 		{
-			"checksumSHA1": "GKW4VF4zp39yj16pd412H9uZyCk=",
+			"checksumSHA1": "ectyBr0KlTcptjOxYe8sgppHG0I=",
 			"path": "github.com/go-macaron/session",
-			"revision": "330e4e4d8beb7b00111ac34539561f46f94c4458",
-			"revisionTime": "2018-10-24T13:54:22Z"
+			"revision": "0a0a789bf1934e55fde19629869caa015a40c525",
+			"revisionTime": "2019-01-31T23:38:54Z"
 		},
 		{
-			"checksumSHA1": "rjnjY9nsxVN4/5u0ifilXED+bgg=",
+			"checksumSHA1": "MT87f6ya9FoWNJJOs8t9+u3+Iqk=",
 			"path": "github.com/mattn/go-sqlite3",
-			"revision": "c7c4067b79cc51e6dfdcef5c702e74b1e0fa7c75",
-			"revisionTime": "2018-10-24T02:40:35Z"
+			"revision": "4cb37250b60d3254997cc8b53d9951278bdf3059",
+			"revisionTime": "2019-02-11T02:28:46Z"
 		},
 		{
 			"checksumSHA1": "1MGpGDQqnUoRpv7VEcQrXOBydXE=",
 			"path": "golang.org/x/crypto/pbkdf2",
-			"revision": "4d3f4d9ffa16a13f451c3b2999e9c49e9750bf06",
-			"revisionTime": "2018-10-23T16:52:47Z"
+			"revision": "74369b46fc6756741c016591724fd1cb8e26845f",
+			"revisionTime": "2019-02-10T12:59:10Z"
 		},
 		{
-			"checksumSHA1": "K7CUTIL27e+SN/brCvgydDO8Txk=",
+			"checksumSHA1": "8yg3QdSXVEmuHm2CgWXEMFN3K6Q=",
 			"path": "gopkg.in/ini.v1",
-			"revision": "9c8236e659b76e87bf02044d06fde8683008ff3e",
-			"revisionTime": "2018-10-14T23:42:04Z"
+			"revision": "6ed8d5f64cd79a498d1f3fab5880cc376ce41bbe",
+			"revisionTime": "2019-01-03T01:53:35Z"
 		},
 		{
-			"checksumSHA1": "pckQxg3OkU4fPL5TBeNDtCYFJKc=",
+			"checksumSHA1": "+PRNmovbaIeAtxPWIZrfRddRjwc=",
 			"path": "gopkg.in/macaron.v1",
-			"revision": "c1be95e6d21e769e44e1ec33cec9da5837861c10",
-			"revisionTime": "2018-03-06T06:20:08Z"
+			"revision": "dfcb80ca86e8534962c62812efd93209c7e600e7",
+			"revisionTime": "2018-12-17T00:30:54Z"
 		}
 	],
 	"rootPath": "e212"
