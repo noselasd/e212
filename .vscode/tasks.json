@@ -7,7 +7,7 @@
             "label": "run",
             "type": "shell",
         
-            "command": "go run main.go",
+            "command": "go run web/main.go",
             "problemMatcher": [],
             
             "group": {
