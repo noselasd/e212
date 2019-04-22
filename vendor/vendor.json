@@ -3,10 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "bJvSOHGBw6DrlwBpCd2zEHRSv5M=",
+			"checksumSHA1": "pcrgKHC4aT5B6vmwielu/xT0N8k=",
 			"path": "github.com/Unknwon/com",
-			"revision": "41959bdd855fb7db467f78865d5f9044507df1cd",
-			"revisionTime": "2018-10-10T21:02:13Z"
+			"revision": "0fed4efef7553eed2cd04624befccacda78bb8e2",
+			"revisionTime": "2019-03-21T03:55:13Z"
 		},
 		{
 			"checksumSHA1": "J0tcl2i76AQvMio9MWNQaucepYA=",
@@ -23,10 +23,10 @@
 			"revisionTime": "2016-06-27T17:00:12Z"
 		},
 		{
-			"checksumSHA1": "MU5Cs6v8HI6x2fl0XTWk2PoVjkU=",
+			"checksumSHA1": "uEkUkQ6pZ9yruJdzHIgnYmUWYyU=",
 			"path": "github.com/go-macaron/macaron",
-			"revision": "dfcb80ca86e8534962c62812efd93209c7e600e7",
-			"revisionTime": "2018-12-17T00:30:54Z",
+			"revision": "4df59ae8a50bd2e82ed915ff1ce764b1bb128a9d",
+			"revisionTime": "2019-03-13T21:40:39Z",
 			"version": "master",
 			"versionExact": "master"
 		},
@@ -37,22 +37,22 @@
 			"revisionTime": "2019-01-31T23:38:54Z"
 		},
 		{
-			"checksumSHA1": "MT87f6ya9FoWNJJOs8t9+u3+Iqk=",
+			"checksumSHA1": "Qk7VIdrRPxkPBRG31IV/AtUsD64=",
 			"path": "github.com/mattn/go-sqlite3",
-			"revision": "4cb37250b60d3254997cc8b53d9951278bdf3059",
-			"revisionTime": "2019-02-11T02:28:46Z"
+			"revision": "31f5bb843b7852e28d5a66d1d539c042c3bb623a",
+			"revisionTime": "2019-03-15T08:37:29Z"
 		},
 		{
 			"checksumSHA1": "1MGpGDQqnUoRpv7VEcQrXOBydXE=",
 			"path": "golang.org/x/crypto/pbkdf2",
-			"revision": "74369b46fc6756741c016591724fd1cb8e26845f",
-			"revisionTime": "2019-02-10T12:59:10Z"
+			"revision": "d864b10871cd4370fe574816b489c819c675ccc7",
+			"revisionTime": "2019-04-22T17:19:08Z"
 		},
 		{
-			"checksumSHA1": "8yg3QdSXVEmuHm2CgWXEMFN3K6Q=",
+			"checksumSHA1": "s4yxtZss88Rf9psrJz9S1EAy6vI=",
 			"path": "gopkg.in/ini.v1",
-			"revision": "6ed8d5f64cd79a498d1f3fab5880cc376ce41bbe",
-			"revisionTime": "2019-01-03T01:53:35Z"
+			"revision": "c85607071cf08ca1adaf48319cd1aa322e81d8c1",
+			"revisionTime": "2019-02-17T19:36:56Z"
 		},
 		{
 			"checksumSHA1": "+PRNmovbaIeAtxPWIZrfRddRjwc=",
