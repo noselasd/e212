@@ -15,8 +15,8 @@ import (
 	"gopkg.in/macaron.v1"
 )
 
-var gPort = flag.Int("port", 4000, "port number to listen on")
-var gUseTLS = flag.Bool("usetls", false, "Use TLS(HTTPS) intead of plain HTTP")
+var gPort = flag.Int("port", 4000, "Port number to listen on")
+var gUseTLS = flag.Bool("usetls", false, "Use TLS(HTTPS) instead of plain HTTP")
 var gTLSCert = flag.String("tlscert", "tls.cert", "Path to TLS certificate file")
 var gTLSKey = flag.String("tlskey", "tls.key", "Path to TLS key file")
 var gVersion = "DEVELOPMENT"
