@@ -3,62 +3,72 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "pcrgKHC4aT5B6vmwielu/xT0N8k=",
-			"path": "github.com/Unknwon/com",
-			"revision": "0fed4efef7553eed2cd04624befccacda78bb8e2",
-			"revisionTime": "2019-03-21T03:55:13Z"
+			"path": ".",
+			"revision": ""
 		},
 		{
-			"checksumSHA1": "J0tcl2i76AQvMio9MWNQaucepYA=",
+			"checksumSHA1": "8EXp8fDQiPy4eFhUDksi1nPpOeY=",
+			"path": "github.com/Unknwon/com",
+			"revision": "b41c64acd94be7e673c9c8301344d31cce99e06c",
+			"revisionTime": "2020-08-17T13:07:00Z"
+		},
+		{
+			"checksumSHA1": "JB7puNQI6vj90ysV3Ecw95cKzRQ=",
 			"path": "github.com/go-macaron/binding",
-			"revision": "ac54ee249c27dca7e76fad851a4a04b73bd1b183",
-			"revisionTime": "2017-06-11T06:58:19Z",
+			"revision": "f2ebb457570c4bb651b19388f84be1a7a3deb4d5",
+			"revisionTime": "2020-09-18T09:29:03Z",
 			"version": "master",
 			"versionExact": "master"
 		},
 		{
 			"checksumSHA1": "y0olVbiMQ6/UOa/eh52XYnies90=",
 			"path": "github.com/go-macaron/inject",
-			"revision": "d8a0b8677191f4380287cfebd08e462217bac7ad",
-			"revisionTime": "2016-06-27T17:00:12Z"
+			"revision": "138e5925c53bc4b58f90b4787ad7a682c4c6498f",
+			"revisionTime": "2020-03-08T11:36:50Z"
 		},
 		{
-			"checksumSHA1": "uEkUkQ6pZ9yruJdzHIgnYmUWYyU=",
+			"checksumSHA1": "H0wH9FgoRJcwhFnVl6FLnMJSS6Y=",
 			"path": "github.com/go-macaron/macaron",
-			"revision": "4df59ae8a50bd2e82ed915ff1ce764b1bb128a9d",
-			"revisionTime": "2019-03-13T21:40:39Z",
+			"revision": "d229aed598800fac0be5261b1b14e4bf9b4e6333",
+			"revisionTime": "2020-08-17T13:11:03Z",
 			"version": "master",
 			"versionExact": "master"
 		},
 		{
-			"checksumSHA1": "ectyBr0KlTcptjOxYe8sgppHG0I=",
+			"checksumSHA1": "pBcK1QuOxaSJyi5shDnCS9+/8IM=",
 			"path": "github.com/go-macaron/session",
-			"revision": "0a0a789bf1934e55fde19629869caa015a40c525",
-			"revisionTime": "2019-01-31T23:38:54Z"
+			"revision": "6021384dc9051849322e3e06752efeadb64b693b",
+			"revisionTime": "2020-09-26T14:38:05Z"
 		},
 		{
-			"checksumSHA1": "Qk7VIdrRPxkPBRG31IV/AtUsD64=",
+			"checksumSHA1": "Qj2Efep+MC/f8oQCqv4Vuy/x+jA=",
 			"path": "github.com/mattn/go-sqlite3",
-			"revision": "31f5bb843b7852e28d5a66d1d539c042c3bb623a",
-			"revisionTime": "2019-03-15T08:37:29Z"
+			"revision": "92f580b350d88e068bfbe223ea51f64044c0f280",
+			"revisionTime": "2020-10-02T08:13:14Z"
+		},
+		{
+			"checksumSHA1": "HL48cp4M1aHiaPM+qp6/JDH/EzU=",
+			"path": "github.com/unknwon/com",
+			"revision": "b41c64acd94be7e673c9c8301344d31cce99e06c",
+			"revisionTime": "2020-08-17T13:07:00Z"
 		},
 		{
 			"checksumSHA1": "1MGpGDQqnUoRpv7VEcQrXOBydXE=",
 			"path": "golang.org/x/crypto/pbkdf2",
-			"revision": "d864b10871cd4370fe574816b489c819c675ccc7",
-			"revisionTime": "2019-04-22T17:19:08Z"
+			"revision": "7f63de1d35b0f77fa2b9faea3e7deb402a2383c8",
+			"revisionTime": "2020-05-22T03:45:11Z"
 		},
 		{
-			"checksumSHA1": "s4yxtZss88Rf9psrJz9S1EAy6vI=",
+			"checksumSHA1": "SSM+y9CzxxK73C7//jf7IzkHUJw=",
 			"path": "gopkg.in/ini.v1",
-			"revision": "c85607071cf08ca1adaf48319cd1aa322e81d8c1",
-			"revisionTime": "2019-02-17T19:36:56Z"
+			"revision": "5e97220809ffaa826f787728501264e9114cb834",
+			"revisionTime": "2020-10-06T07:31:30Z"
 		},
 		{
-			"checksumSHA1": "+PRNmovbaIeAtxPWIZrfRddRjwc=",
+			"checksumSHA1": "FxpLxWZGCxifGIRcPbWaq/vjh+8=",
 			"path": "gopkg.in/macaron.v1",
-			"revision": "dfcb80ca86e8534962c62812efd93209c7e600e7",
-			"revisionTime": "2018-12-17T00:30:54Z"
+			"revision": "fa1a3730e43d44557d3e114c72602477d492eb9d",
+			"revisionTime": "2020-06-11T08:29:11Z"
 		}
 	],
 	"rootPath": "e212"
