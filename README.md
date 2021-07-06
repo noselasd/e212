@@ -38,20 +38,23 @@ Build/Run
 6. Fetch dependencies:
     $GOPATH/bin/govendor sync
 
-7. build the app:
+7. For go-1.16 or newer, run 
+   export GO111MODULE=auto
+
+8. build the app:
     make
 
-8. Add a user(admin with password admin)  and initialize the database:
+9. Add a user(admin with password admin)  and initialize the database:
     ./e212_cmd newuser admin admin@example.com admin
 
-9. (Optional) Add E212 entries from ITU (Note, there can be some constraint violation
+10. (Optional) Add E212 entries from ITU (Note, there can be some constraint violation
               due to duplicated entries from the ITU website)
     sqlite3 mccmnc.db < e212.sql
 
-10. Run the app:
+11. Run the app:
     ./e212
 
-11. Visit the website at http://localhost:4000
+12. Visit the website at http://localhost:4000
     (Admin login can use the user:admin password:admin for the user created above)
 
 Develop
