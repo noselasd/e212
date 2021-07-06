@@ -30,31 +30,25 @@ Build/Run
    (default should just be to place it in $HOME/go/src, so the files are 
    within $HOME/go/src/e212/)
 
-4. Install the govendor tool:
-   go get -u github.com/kardianos/govendor
+4. Install dependencies in vendor folder
+   go mod vendor
 
 5. cd $HOME/go/src/e212/
 
-6. Fetch dependencies:
-    $GOPATH/bin/govendor sync
-
-7. For go-1.16 or newer, run 
-   export GO111MODULE=auto
-
-8. build the app:
+6. build the app:
     make
 
-9. Add a user(admin with password admin)  and initialize the database:
+7. Add a user(admin with password admin)  and initialize the database:
     ./e212_cmd newuser admin admin@example.com admin
 
-10. (Optional) Add E212 entries from ITU (Note, there can be some constraint violation
+8. (Optional) Add E212 entries from ITU (Note, there can be some constraint violation
               due to duplicated entries from the ITU website)
     sqlite3 mccmnc.db < e212.sql
 
-11. Run the app:
+9. Run the app:
     ./e212
 
-12. Visit the website at http://localhost:4000
+10. Visit the website at http://localhost:4000
     (Admin login can use the user:admin password:admin for the user created above)
 
 Develop
