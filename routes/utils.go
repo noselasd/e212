@@ -45,7 +45,7 @@ func mustBeLoggedIn(ctx *AppContext) {
 	if !isLoggedIn {
 		err := errors.New("You are not authorized")
 		if acceptsJson(ctx) {
-			jsonError(500, err, ctx)
+			jsonError(403, err, ctx)
 		} else {
 			ctx.Error(403, err.Error())
 		}
