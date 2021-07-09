@@ -8,19 +8,20 @@
     <title>{{ .title }}</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/app.css" rel="stylesheet">
     {{if .need_sorting }}
+    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <link href="css/bootstrap-sortable.css" rel="stylesheet">
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-sortable.js"></script>
-    
+
     {{end}}
-    
+    <link href="css/app.css" rel="stylesheet">
+
 </head>
 
 <body class="mt-0">
-    
+
         <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
@@ -51,7 +52,7 @@
                                     </li>
                                     {{end}}
                                 </ul>
-        
+
                             </div>
                         </nav>
                     </div>
@@ -59,14 +60,14 @@
                 {{if .Flash.ErrorMsg}}
                 <div class="row pt-3">
                     <div class="col-sm-12 alert alert-danger">
-                        {{.Flash.ErrorMsg}}                         
+                        {{.Flash.ErrorMsg}}
                     </div>
                 </div>
                 {{end}}
                 {{if .Flash.InfoMsg}}
                 <div class="row pt-3">
                     <div class="col-sm-12 alert alert-primary">
-                        {{.Flash.InfoMsg}}                         
+                        {{.Flash.InfoMsg}}
                     </div>
                 </div>
                 {{end}}
