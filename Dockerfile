@@ -1,12 +1,16 @@
+FROM golang:latest AS builder
+WORKDIR /go/src/app
+COPY . .
+RUN make
 
 FROM fedora:latest
 RUN mkdir /srv/e212 && yum -y install sqlite
 WORKDIR /srv/e212
-COPY e212 .
-COPY e212.sql .
-COPY e212_cmd .
-COPY templates/ templates/
-COPY public/ public/
+COPY --from=builder /go/src/app/e212 .
+COPY --from=builder /go/src/app/e212.sql .
+COPY --from=builder /go/src/app/e212_cmd .
+COPY --from=builder /go/src/app/templates/ templates/
+COPY --from=builder /go/src/app/public/ public/
 RUN ./e212_cmd newuser admin admin@example.com admin 
 #sample date contains duplicates, makes sqlite3 fail
 RUN sqlite3  mccmnc.db < e212.sql || true
