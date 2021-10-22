@@ -56,6 +56,29 @@ func main() {
 		} else {
 			println("Failed to create user:", err.Error())
 		}
+	} else if os.Args[1] == "newuser" && len(os.Args) == 5 {
+		u := store.User{
+			LoginName: os.Args[2],
+			Email:     os.Args[3],
+			Password:  os.Args[4],
+		}
+		err := store.CreateUser(&u)
+		if err == nil {
+			println("User created. ID", u.ID)
+			ok := u.CheckPassword(os.Args[4])
+			println("Password check:", ok)
+		} else {
+			println("Failed to create user:", err.Error())
+		}
+
+	} else if os.Args[1] == "deluser" && len(os.Args) == 3 {
+
+		err := store.DeleteUserByLogin(os.Args[2])
+		if err == nil {
+			println("Deleted user:", os.Args[2])
+		} else {
+			println("Failed to delete user:", err.Error())
+		}
 
 	} else {
 		usage()

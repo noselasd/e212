@@ -3,13 +3,12 @@ package store
 import (
 	"errors"
 	"strings"
-
-	"github.com/mattn/go-sqlite3"
+	"time"
 )
 
 type MccMnc struct {
-	Mcc string `json:"mcc"`
-	Mnc string `json:"mnc"`
+	Mcc string `json:"mcc" gorm:"index:idx_mccmnc,unique"`
+	Mnc string `json:"mnc" gorm:"index:idx_mccmnc,unique"`
 }
 
 func (v *MccMnc) String() string {
@@ -17,10 +16,12 @@ func (v *MccMnc) String() string {
 }
 
 type E212Entry struct {
-	ID       int
-	Code     MccMnc `json:"code"`
-	Country  string `json:"country"`
-	Operator string `json:"operator"`
+	ID        int
+	Code      MccMnc `json:"code" gorm:"embedded"`
+	Country   string `json:"country"`
+	Operator  string `json:"operator"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func isAsciiDigits(s string) bool {
@@ -61,110 +62,36 @@ func NewE212Entry(mcc, mnc, country, operator string) *E212Entry {
 }
 
 func E212GetByMccMnc(mccMnc *MccMnc) (*E212Entry, error) {
-	stmt, err := gDb.Prepare("SELECT ID, MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=? AND MNC=?")
-	if err != nil {
-		return nil, err
-	}
-
-	defer stmt.Close()
-
-	rs, err := stmt.Query(mccMnc.Mcc, mccMnc.Mnc)
-	if err != nil {
-		return nil, err
-	}
-
 	var entry E212Entry
-	if rs.Next() {
-		err = rs.Scan(&entry.ID, &entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
-		rs.Close()
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		return nil, ErrEntryMissing
-	}
+	res := gDb.Take(&entry, "mcc = ? AND mnc = ?", mccMnc.Mcc, mccMnc.Mnc)
 
-	return &entry, nil
+	return &entry, res.Error
 
 }
 
 func E212GetAll() ([]E212Entry, error) {
 	var entries []E212Entry
+	res := gDb.Find(&entries)
 
-	stmt, err := gDb.Prepare("SELECT ID, MCC, MNC, COUNTRY, OPERATOR FROM E212 ORDER BY COUNTRY COLLATE NOCASE,MCC,MNC")
-	if err != nil {
-		return nil, err
-	}
-
-	defer stmt.Close()
-
-	rs, err := stmt.Query()
-	if err != nil {
-		return nil, err
-	}
-
-	for rs.Next() {
-		var entry E212Entry
-
-		err = rs.Scan(&entry.ID, &entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
-		entries = append(entries, entry)
-		if err != nil {
-			rs.Close()
-			return entries, err
-		}
-	}
-
-	return entries, err
+	return entries, res.Error
 }
 
 func E212GetByMcc(mcc string) ([]E212Entry, error) {
 	var entries []E212Entry
 
-	stmt, err := gDb.Prepare("SELECT ID, MCC, MNC, COUNTRY, OPERATOR FROM E212 WHERE MCC=? ORDER BY COUNTRY COLLATE NOCASE,OPERATOR COLLATE NOCASE")
-	if err != nil {
-		return nil, err
-	}
-
-	defer stmt.Close()
-
-	rs, err := stmt.Query(mcc)
-	if err != nil {
-		return nil, err
-	}
-
-	for rs.Next() {
-		var entry E212Entry
-
-		err = rs.Scan(&entry.ID, &entry.Code.Mcc, &entry.Code.Mnc, &entry.Country, &entry.Operator)
-		entries = append(entries, entry)
-		if err != nil {
-			rs.Close()
-			return entries, err
-		}
-	}
-
+	res := gDb.Find(&entries, "MCC=?", mcc)
 	if len(entries) == 0 {
 		return nil, ErrEntryMissing
 	}
 
-	return entries, err
+	return entries, res.Error
+
 }
 
 func E212Add(e *E212Entry) error {
+	res := gDb.Create(e)
 
-	stmt, err := gDb.Prepare("INSERT INTO E212(MCC, MNC, COUNTRY, OPERATOR) VALUES(?, ?, ?, ?)")
-	if err != nil {
-		return err
-	}
-
-	defer stmt.Close()
-	_, err = stmt.Exec(e.Code.Mcc, e.Code.Mnc, e.Country, e.Operator)
-	if s3err, ok := err.(sqlite3.Error); ok {
-		if s3err.Code == sqlite3.ErrConstraint {
-			return ErrEntryExists
-		}
-	}
-	return err
+	return res.Error
 }
 
 func E212Update(e *E212Entry) error {
@@ -172,23 +99,8 @@ func E212Update(e *E212Entry) error {
 		return ErrEntryMissing
 	}
 
-	stmt, err := gDb.Prepare("UPDATE E212 SET MCC=?, MNC=?, COUNTRY=?, OPERATOR =? WHERE ID=?")
-	if err != nil {
-		return err
-	}
-
-	defer stmt.Close()
-	r, err := stmt.Exec(e.Code.Mcc, e.Code.Mnc, e.Country, e.Operator, e.ID)
-
-	if err == nil {
-		var rows int64
-		rows, err = r.RowsAffected()
-		if err == nil && rows == 0 {
-			return ErrEntryMissing
-		}
-	}
-
-	return err
+	res := gDb.Save(e)
+	return res.Error
 }
 
 func E212DeleteById(id int) error {
@@ -196,40 +108,14 @@ func E212DeleteById(id int) error {
 		return ErrEntryMissing
 	}
 
-	stmt, err := gDb.Prepare("DELETE FROM E212 WHERE ID=?")
-	if err != nil {
-		return err
-	}
-
-	defer stmt.Close()
-	r, err := stmt.Exec(id)
-
-	if err == nil {
-		var rows int64
-		rows, err = r.RowsAffected()
-		if err == nil && rows == 0 {
-			return ErrEntryMissing
-		}
-	}
-
-	return err
+	res := gDb.Delete(&E212Entry{}, id)
+	return res.Error
 }
 
 func E212Remove(e *MccMnc) error {
-
-	stmt, err := gDb.Prepare("DELETE FROM  E212 WHERE MCC=? and MNC=?")
-	if err != nil {
-		return err
-	}
-
-	defer stmt.Close()
-	r, err := stmt.Exec(e.Mcc, e.Mnc)
-	if err != nil {
-		return err
-	}
-	if cnt, _ := r.RowsAffected(); cnt == 0 {
+	res := gDb.Where("mcc = ? and mnc = ?", e.Mcc, e.Mnc).Delete(&E212Entry{})
+	if res.RowsAffected == 0 {
 		return ErrEntryMissing
 	}
-
-	return err
+	return res.Error
 }
