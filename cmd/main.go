@@ -11,6 +11,7 @@ func usage() {
 	println("Usage:", os.Args[0], " add mcc mnc country operator")
 	println("      ", os.Args[0], " remove mcc mnc")
 	println("      ", os.Args[0], " newuser loginname email password")
+	println("      ", os.Args[0], " deluser loginname")
 	println("v.", gVersion)
 	os.Exit(2)
 
@@ -20,7 +21,7 @@ func main() {
 	if len(os.Args) == 1 {
 		usage()
 	}
-	err := store.Init("mccmnc.db")
+	err := store.Init("mccmnc.db", false)
 	if err != nil {
 		println("Failed to open store:", err.Error())
 		os.Exit(1)
