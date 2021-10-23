@@ -9,14 +9,17 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 )
 
 type User struct {
 	ID        int64
-	LoginName string
-	Email     string
+	LoginName string `gorm:"uniqueIndex"`
+	Email     string `gorm:"uniqueIndex"`
 	Salt      string
 	Password  string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 var ErrUnknownUser = errors.New("Unknown user")
@@ -40,31 +43,9 @@ func hashSaltAndPassword(password string, salt string) string {
 }
 
 func GetUserByLogin(loginName string) (*User, error) {
-
-	stmt, err := gDb.Prepare("SELECT ID, LOGINNAME, EMAIL, SALT, PASSWORD FROM USER WHERE LOGINNAME=?")
-	if err != nil {
-		return nil, err
-	}
-
-	defer stmt.Close()
-
-	rs, err := stmt.Query(loginName)
-	if err != nil {
-		return nil, err
-	}
-
 	var user User
-	if rs.Next() {
-		err = rs.Scan(&user.ID, &user.LoginName, &user.Email, &user.Salt, &user.Password)
-		rs.Close()
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		return nil, ErrUnknownUser
-	}
-
-	return &user, nil
+	res := gDb.Take(&user, "login_name = ?", strings.ToLower(loginName))
+	return &user, res.Error
 }
 
 func (u *User) CheckPassword(password string) bool {
@@ -79,26 +60,25 @@ func (u *User) CheckPassword(password string) bool {
 
 func CreateUser(u *User) error {
 	u.LoginName = strings.TrimSpace(u.LoginName)
+	u.LoginName = strings.ToLower(u.LoginName)
 	u.Email = strings.TrimSpace(u.Email)
+	u.Email = strings.ToLower(u.Email)
 	u.Salt = genSalt()
 	u.Password = hashSaltAndPassword(u.Password, u.Salt)
 
-	stmt, err := gDb.Prepare("INSERT INTO USER(LOGINNAME, EMAIL, SALT, PASSWORD) VALUES(?, ?, ?, ?)")
-	if err != nil {
-		return err
+	res := gDb.Create(u)
+
+	return res.Error
+}
+
+func DeleteUserByLogin(loginName string) error {
+	loginName = strings.TrimSpace(loginName)
+	loginName = strings.ToLower(loginName)
+
+	res := gDb.Where("login_name = ?", loginName).Delete(&User{})
+	if res.RowsAffected == 0 {
+		return ErrUnknownUser
 	}
 
-	defer stmt.Close()
-
-	res, err := stmt.Exec(u.LoginName, u.Email, u.Salt, u.Password)
-	if err != nil {
-		return err
-	}
-	id, err := res.LastInsertId()
-	if err != nil {
-		return err
-	}
-	u.ID = id
-
-	return nil
+	return res.Error
 }

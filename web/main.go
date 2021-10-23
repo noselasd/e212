@@ -19,6 +19,7 @@ var gPort = flag.Int("port", 4000, "Port number to listen on")
 var gUseTLS = flag.Bool("usetls", false, "Use TLS(HTTPS) instead of plain HTTP")
 var gTLSCert = flag.String("tlscert", "tls.cert", "Path to TLS certificate file")
 var gTLSKey = flag.String("tlskey", "tls.key", "Path to TLS key file")
+var gTraceSQL = flag.Bool("logsql", false, "Log SQL statements")
 var gVersion = "DEVELOPMENT"
 
 func runServer(r *macaron.Macaron) {
@@ -53,7 +54,7 @@ func main() {
 	}
 
 	flag.Parse()
-	err := store.Init("mccmnc.db")
+	err := store.Init("mccmnc.db", *gTraceSQL)
 	if err != nil {
 		panic(err)
 	}
