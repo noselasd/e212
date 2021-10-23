@@ -100,6 +100,11 @@ func E212Update(e *E212Entry) error {
 	}
 
 	res := gDb.Save(e)
+
+	if res.RowsAffected == 0 {
+		return ErrEntryMissing
+	}
+
 	return res.Error
 }
 
@@ -109,6 +114,11 @@ func E212DeleteById(id int) error {
 	}
 
 	res := gDb.Delete(&E212Entry{}, id)
+
+	if res.RowsAffected == 0 {
+		return ErrEntryMissing
+	}
+
 	return res.Error
 }
 

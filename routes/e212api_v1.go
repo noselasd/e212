@@ -63,7 +63,25 @@ func deleteByMCCMNC(ctx *AppContext) {
 	}
 
 	err = store.E212DeleteById(e.ID)
-	if err != nil {
+	if err == store.ErrEntryMissing {
+		jsonError(404, err, ctx)
+		return
+	} else if err != nil {
+		jsonError(500, err, ctx)
+		return
+	}
+
+	ctx.Status(204)
+}
+
+func deleteById(ctx *AppContext) {
+	id := ctx.ParamsInt("id")
+
+	err := store.E212DeleteById(id)
+	if err == store.ErrEntryMissing {
+		jsonError(404, err, ctx)
+		return
+	} else if err != nil {
 		jsonError(500, err, ctx)
 		return
 	}
