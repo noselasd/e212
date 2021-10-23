@@ -1,55 +1,37 @@
 package store
 
 import (
-	"database/sql"
 	"errors"
 
-	//init sqlite2 driver
-	_ "github.com/mattn/go-sqlite3"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
-var gDb *sql.DB
+var gDb *gorm.DB
 var ErrEntryExists = errors.New("Entry already exists")
 var ErrEntryMissing = errors.New("Entry missing")
 
-var initSQL = [...]string{
-	`CREATE TABLE IF NOT EXISTS E212 (
-		ID INTEGER PRIMARY KEY AUTOINCREMENT,
-		MCC VARCHAR(3) NOT NULL,
-		MNC VARCHAR(3) NOT NULL,
-		COUNTRY VARCHAR(255) NOT NULL,
-		OPERATOR VARCHAR(255) NOT NULL,
-		CONSTRAINT MCCMNC_UNIQUE UNIQUE(MCC, MNC)
-	)`,
-	`CREATE TABLE IF NOT EXISTS USER (
-		ID INTEGER PRIMARY KEY AUTOINCREMENT,
-		LOGINNAME STRING NOT NULL,
-		EMAIL STRING NOT NULL,
-		SALT BLOB NOT NULL,
-		PASSWORD BLOB NOT NULL,
-		CONSTRAINT LOGINNAME_UNIQUE UNIQUE (LOGINNAME COLLATE NOCASE),
-		CONSTRAINT EMAIL_UNIQUE  UNIQUE (EMAIL COLLATE NOCASE)
-	)`,
-}
-
-func Init(file string) error {
+func Init(file string, traceSql bool) error {
 	if gDb != nil {
 		panic("Database is already opened")
 	}
+	var config *gorm.Config
+	if traceSql {
+		config = &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Info),
+		}
+	} else {
+		config = &gorm.Config{}
+	}
+	tmpdb, err := gorm.Open(sqlite.Open(file), config)
 
-	tmpdb, err := sql.Open("sqlite3", file)
 	if err != nil {
 		return err
 	}
 
-	for i := range initSQL {
-		_, err = tmpdb.Exec(initSQL[i])
-		if err != nil {
-			tmpdb.Close()
-			return err
-		}
-	}
-
+	tmpdb.AutoMigrate(&E212Entry{}, &User{})
 	gDb = tmpdb
+
 	return nil
 }
