@@ -41,10 +41,12 @@ func getByMCC(ctx *AppContext) {
 }
 
 func getByMCCMNC(ctx *AppContext) {
-	mcc := ctx.Params("mcc")
-	mnc := ctx.Params("mnc")
+	code := store.MccMnc{
+		Mcc: ctx.Params("mcc"),
+		Mnc: ctx.Params("mnc"),
+	}
 
-	e, err := store.E212GetByMccMnc(&store.MccMnc{Mcc: mcc, Mnc: mnc})
+	e, err := store.E212GetByMccMnc(&code)
 	if err == nil {
 		ctx.JSON(200, e)
 	} else {
@@ -53,10 +55,12 @@ func getByMCCMNC(ctx *AppContext) {
 }
 
 func deleteByMCCMNC(ctx *AppContext) {
-	mcc := ctx.Params("mcc")
-	mnc := ctx.Params("mnc")
+	code := store.MccMnc{
+		Mcc: ctx.Params("mcc"),
+		Mnc: ctx.Params("mnc"),
+	}
 
-	e, err := store.E212GetByMccMnc(&store.MccMnc{Mcc: mcc, Mnc: mnc})
+	e, err := store.E212GetByMccMnc(&code)
 	if err != nil {
 		jsonError(404, err, ctx)
 		return
@@ -102,6 +106,10 @@ func readJsonEntry(ctx *AppContext) (*store.E212Entry, error) {
 }
 
 func updateByMCCMNC(ctx *AppContext) {
+	code := store.MccMnc{
+		Mcc: ctx.Params("mcc"),
+		Mnc: ctx.Params("mnc"),
+	}
 
 	entry, err := readJsonEntry(ctx)
 	if err != nil {
@@ -114,7 +122,7 @@ func updateByMCCMNC(ctx *AppContext) {
 		return
 	}
 
-	e, err := store.E212GetByMccMnc(&entry.Code)
+	e, err := store.E212GetByMccMnc(&code)
 	if err != nil {
 		jsonError(404, err, ctx)
 		return
