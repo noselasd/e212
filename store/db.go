@@ -30,7 +30,7 @@ func Init(file string, traceSql bool) error {
 		return err
 	}
 
-	tmpdb.AutoMigrate(&E212Entry{}, &User{})
+	tmpdb.AutoMigrate(&E212Entry{}, &User{}, &E212Country{})
 	gDb = tmpdb
 
 	return nil

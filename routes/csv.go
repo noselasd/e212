@@ -1,10 +1,12 @@
 package routes
 
-import "e212/store"
-import "encoding/csv"
+import (
+	"e212/store"
+	"encoding/csv"
+)
 
 func writeRow(e *store.E212Entry, wr *csv.Writer) error {
-	row := []string{e.Country, e.Operator, e.Code.Mcc, e.Code.Mnc}
+	row := []string{e.E212Country.Name, e.Operator, e.Code.Mcc, e.Code.Mnc}
 	return wr.Write(row)
 }
 
@@ -19,6 +21,7 @@ func csvExport(ctx *AppContext) {
 	reqSep := ctx.Query("separator")
 	if len(reqSep) == 1 {
 		separator = rune(reqSep[0])
+
 	}
 
 	csvWr := csv.NewWriter(ctx.Resp)
