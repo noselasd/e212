@@ -18,7 +18,7 @@ type User struct {
 	Email     string `gorm:"uniqueIndex"`
 	Salt      string
 	Password  string
-	CreatedAt time.Time
+	CreatedAt time.Time `gorm:"<-:create"`
 	UpdatedAt time.Time
 }
 

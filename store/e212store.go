@@ -17,10 +17,10 @@ func (v *MccMnc) String() string {
 
 type E212Entry struct {
 	ID        int
-	Code      MccMnc `json:"code" gorm:"embedded"`
-	Country   string `json:"country"`
-	Operator  string `json:"operator"`
-	CreatedAt time.Time
+	Code      MccMnc    `json:"code" gorm:"embedded"`
+	Country   string    `json:"country"`
+	Operator  string    `json:"operator"`
+	CreatedAt time.Time `gorm:"<-:create"`
 	UpdatedAt time.Time
 }
 
