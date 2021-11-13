@@ -3,6 +3,8 @@ package routes
 import (
 	"e212/store"
 	"encoding/csv"
+	"fmt"
+	"time"
 )
 
 func writeRow(e *store.E212Entry, wr *csv.Writer) error {
@@ -27,7 +29,10 @@ func csvExport(ctx *AppContext) {
 	csvWr := csv.NewWriter(ctx.Resp)
 	csvWr.Comma = separator
 
-	ctx.Resp.Header().Set("content-disposition", "attachment; filename=\"e212.csv\"")
+	timeStr := time.Now().In(time.UTC).Format("2006-01-02T150405Z")
+	contentDisp := fmt.Sprintf("attachment; filename=\"e212-%s.csv\"", timeStr)
+
+	ctx.Resp.Header().Set("content-disposition", contentDisp)
 	ctx.Resp.Header().Set("content-type", "text/csv")
 	defer csvWr.Flush()
 
