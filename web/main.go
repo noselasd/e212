@@ -58,11 +58,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	r := macaron.Classic()
-	r.Use(macaron.Renderer())
-	r.Use(session.Sessioner())
-	r.Use(routes.SetHeaders())
-	r.Use(routes.AppContexter(gVersion))
-	routes.InstallRoutes(r)
-	runServer(r)
+	m := macaron.New()
+
+	m.Use(macaron.Logger()) 		//standard logger
+	m.Use(macaron.Recovery()) 		//standard recovery if code panics
+	m.Use(macaron.Static("public")) //serve static files from public/ folder mapped to /public
+	m.Use(macaron.Renderer()) 		//standard html template renderer
+	m.Use(session.Sessioner()) 		//standard http session support
+	m.Use(routes.SetHeaders())  	//our custom http headers
+	m.Use(routes.AppContexter(gVersion))//aplication context to pass to route handlers
+	routes.InstallRoutes(m) 		//Our routes
+	runServer(m)
 }
