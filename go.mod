@@ -1,6 +1,6 @@
 module e212
 
-go 1.24
+go 1.24.0
 
 require (
 	github.com/go-macaron/session v1.0.3
@@ -15,7 +15,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-sqlite3 v1.14.24 // indirect
 	github.com/unknwon/com v1.0.2-0.20200817130700-b41c64acd94b // indirect
-	golang.org/x/crypto v0.35.0 // indirect
-	golang.org/x/text v0.22.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
