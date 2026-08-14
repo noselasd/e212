@@ -1,6 +1,6 @@
 module e212
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/go-macaron/session v1.0.4
